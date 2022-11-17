@@ -8,8 +8,9 @@ import Input from '../Components/Input/Input';
 import reactotron from 'reactotron-react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {showMessage} from 'react-native-flash-message';
+import showMessages from '../Services/ShowMessages';
 import {useNavigation} from '@react-navigation/native';
+import texts from '../Local/en';
 
 const styles = require('../Styles/Styles');
 
@@ -28,17 +29,6 @@ const Login = () => {
   };
 
   //mostrar mensaje
-  const showMessages = prop => {
-    showMessage({
-      message: prop,
-      type: 'info',
-      autoHide: true,
-      duration: 3000,
-      icon: 'info',
-      backgroundColor: '#31bfb5',
-      statusBarHeight: 30,
-    });
-  };
 
   //local storage
   //guardamos el token en el storage
@@ -72,7 +62,7 @@ const Login = () => {
       .then(response => {
         reactotron.log(response.data.token);
         storeData(response.data.token);
-        showMessages('Login successful');
+        showMessages('Login successful', '#31bfb5');
         navigation.navigate('UserHome');
       })
       .catch(error => {
@@ -97,29 +87,24 @@ const Login = () => {
           justifyContent: 'space-between',
         }}>
         <View style={styles.inputGroup}>
-          <MainTitle label={'Welcome Back!'} />
+          <MainTitle label={texts.login.mainTitle} />
           <Image
             style={styles.imgTitle}
             source={require('../Assets/login.png')}
           />
-          <Input input={'Enter your e-mail'} function={handleName} />
+          <Input input={texts.login.placeHolderEmail} function={handleName} />
           <Input
-            input={'Confirm password'}
+            input={texts.login.placeHolderPassword}
             security={true}
             function={handlePassword}
           />
         </View>
-        <SecondaryTitle
-          label={'Forgot password'}
-          message={
-            'Hemos enviado por email las instrucciones para reestablecer su contrasea'
-          }
-        />
+        <SecondaryTitle label={texts.login.forgotPassword} message={''} />
         <View style={styles.inputGroup}>
           <Button label={'Log in'} onPress={login} />
           <HighlightedText
-            label={'Don’t have an account?'}
-            props={' Sign Up'}
+            label={texts.login.dontHaveAcc}
+            props={texts.login.signUp}
             screenName={'Register'}
           />
         </View>

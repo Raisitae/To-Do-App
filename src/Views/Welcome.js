@@ -8,6 +8,7 @@ import MainText from '../Components/Texts/MainText';
 const styles = require('../Styles/Styles');
 import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import texts from '../Local/en';
 
 const Welcome = () => {
   const navigation = useNavigation();
@@ -39,8 +40,8 @@ const Welcome = () => {
   } else {
     return (
       <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.containerEnd}>
+        style={styles.containerEnd}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <StatusBar
           translucent
           backgroundColor="transparent"
@@ -55,13 +56,13 @@ const Welcome = () => {
           }}>
           <View style={styles.center}>
             <Image style={styles.imgTitle} source={onboarding} />
-            <MainTitle label={'Gets things done with TODo'} />
-            <MainText label={'Lorem ipsum dolor sit amet,'} />
-            <MainText label={'consectur adipiscing elit. Magna in'} />
-            <MainText label={'volutpat, tristique lacinia ut.'} />
-            <MainText label={'Elementum non turpis nullam ipsum.'} />
+            <MainTitle label={texts.welcome.mainTitle} />
+            <MainText label={texts.welcome.mainText1} />
+            <MainText label={texts.welcome.mainText2} />
+            <MainText label={texts.welcome.mainText3} />
+            <MainText label={texts.welcome.mainText4} />
           </View>
-          <Button label={'Get Started'} onPress={where} screenName={'Login'} />
+          <Button label={texts.welcome.btnStarted} onPress={where} />
         </View>
       </KeyboardAvoidingView>
     );

@@ -74,6 +74,12 @@ const UserHome = () => {
         <View style={styles.center}>
           <MainTitle label={'Al fin lograste entrar!!!'} />
         </View>
+        <Button
+          label={'Create new task'}
+          onPress={() => {
+            navigation.navigate('NewTask');
+          }}
+        />
         <Button label={'Log out'} onPress={logout} />
       </View>
     </KeyboardAvoidingView>

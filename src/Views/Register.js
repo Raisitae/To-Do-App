@@ -9,8 +9,9 @@ import axios from 'axios';
 import reactotron from 'reactotron-react-native';
 import React, {useEffect} from 'react';
 import {showMessage, hideMessage} from 'react-native-flash-message';
-
+import texts from '../Local/en';
 const styles = require('../Styles/Styles');
+import showMessages from '../Services/ShowMessages';
 
 const Register = () => {
   const [name, setName] = React.useState('');
@@ -56,30 +57,6 @@ const Register = () => {
     }
   };
 
-  //esto podria hacerse en una sola funcion que pase nombre y color
-  const errorMsg = message => {
-    showMessage({
-      message: message,
-      type: 'info',
-      autoHide: true,
-      duration: 3000,
-      icon: 'info',
-      backgroundColor: '#f12222',
-      statusBarHeight: 30,
-    });
-  };
-  const showMessages = prop => {
-    showMessage({
-      message: prop,
-      type: 'info',
-      autoHide: true,
-      duration: 3000,
-      icon: 'info',
-      backgroundColor: '#31bfb5',
-      statusBarHeight: 30,
-    });
-  };
-
   //submit del formulario. faltaria agregar una funcion que borre los inputs despues de enviado el formulario
   const submit = () => {
     if (
@@ -88,7 +65,6 @@ const Register = () => {
       validPassword &&
       password === confirmPassword
     ) {
-      reactotron.log('empezando a enviar');
       axios
         .post(
           `${baseUrl}/user/register`,
@@ -104,11 +80,7 @@ const Register = () => {
           },
         )
         .then(response => {
-          console.log(response);
-          reactotron.log(response);
-          reactotron.log(response.data);
           setToken(response.data.token);
-          reactotron.log(token);
           showMessages('Datos enviados');
         })
         .catch(error => {
@@ -116,7 +88,7 @@ const Register = () => {
           reactotron.log('error');
         });
     } else {
-      errorMsg('Datos invalidos');
+      showMessages(texts.message.invalid, 'red');
     }
   };
 
@@ -136,45 +108,49 @@ const Register = () => {
           justifyContent: 'space-between',
         }}>
         <View style={styles.inputGroup}>
-          <MainTitle label={'Welcome Onboard!'} />
-          <MainText label={'Lets help you meet up your tasks.'} />
+          <MainTitle label={texts.register.mainTitle} />
+          <MainText label={texts.register.mainText} />
         </View>
         <View style={styles.inputGroup}>
           <Input
             function={checkValidName}
-            input={'Enter your full name'}
+            input={texts.register.placeHolderName}
             onFocus={() => {
-              showMessages('Debe ingresar un nombre de más de 7 caracteres');
+              showMessages(texts.message.name, '#31bfb5');
             }}
           />
           <Input
             function={checkValidEmail}
-            input={'Enter your e-mail'}
+            input={texts.login.placeHolderEmail}
             keyboard={'email-address'}
             onFocus={() => {
-              showMessages('Debe ingresar una dirección de correo válida');
+              showMessages(texts.message.email, '#31bfb5');
             }}
           />
           <Input
             function={checkValidPassword}
             security={true}
-            input={'Enter your password'}
+            input={texts.login.placeHolderPassword}
             onFocus={() => {
-              showMessages('Debe ingresar una contraseña segura');
+              showMessages(texts.message.password, '#31bfb5');
             }}
           />
           <Input
             function={handleConfirmPassword}
             security={true}
-            input={'Confirm password'}
+            input={texts.register.placeHolderConfirmPassword}
             onFocus={() => {
-              showMessages('Las contraseñas deben coincidir');
+              showMessages(texts.message.confirmPassword, '#31bfb5');
             }}
           />
-          <Button label={'Register'} onPress={submit} screenName={'Register'} />
+          <Button
+            label={texts.register.registerBtn}
+            onPress={submit}
+            screenName={'Register'}
+          />
           <HighlightedText
-            label={'Already have an account?'}
-            props={' Log In'}
+            label={texts.register.highlightedText}
+            props={texts.login.logIn}
             screenName={'Login'}
           />
         </View>
