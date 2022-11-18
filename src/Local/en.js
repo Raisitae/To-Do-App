@@ -35,4 +35,9 @@ export default {
     invalid: 'Datos inválidos',
     sended: 'Datos enviados',
   },
+  tasks: {
+    createName: 'My Tasks',
+    createBtn: 'Create',
+    createDescription: 'Create a new task',
+  },
 };

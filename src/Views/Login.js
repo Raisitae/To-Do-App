@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import {Image, View, StatusBar, KeyboardAvoidingView} from 'react-native';
 import Button from '../Components/Button/Button';
 import MainTitle from '../Components/Titles/MainTitle';
@@ -6,69 +6,66 @@ import SecondaryTitle from '../Components/Titles/SecondaryTitle';
 import HighlightedText from '../Components/Texts/HighlightedText';
 import Input from '../Components/Input/Input';
 import reactotron from 'reactotron-react-native';
-import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import showMessages from '../Services/ShowMessages';
-import {useNavigation} from '@react-navigation/native';
 import texts from '../Local/en';
+import {userLogin} from '../Services/Api';
+import {AuthContext} from '../Services/Context';
+import {useNavigation} from '@react-navigation/native';
 
 const styles = require('../Styles/Styles');
 
 const Login = () => {
-  const baseUrl = 'https://api-nodejs-todolist.herokuapp.com';
-  const [name, setName] = React.useState('');
-  const [password, setPassword] = React.useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
+  const {login} = useContext(AuthContext);
 
-  // seteamos los estados de los inputs
+  useEffect(() => {
+    setEmail('jose@gmail.com');
+    setPassword('1234567a');
+  }, []);
+
   const handleName = text => {
-    setName(text);
+    setEmail(text);
   };
   const handlePassword = text => {
     setPassword(text);
   };
 
-  //mostrar mensaje
-
-  //local storage
-  //guardamos el token en el storage
-  const storeData = async value => {
-    try {
-      const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem('@storage_Key', jsonValue);
-      reactotron.log('storedata' + value);
-    } catch (e) {
-      // saving error
+  const validate = () => {
+    if (password.length === 0) {
+      showMessages('no hay contraseña', 'red');
+      return false;
+    } else if (password.length < 7) {
+      showMessages('la contraseña es demasiado corta', 'red');
+      return false;
     }
+
+    return true;
   };
 
-  //funcion para loguear. Si el usuario existe, se guarda el token en el storage
-  //Deberia redireccionar a la pantalla de tareas
-  //Deberia mostrar un mensaje de error si el usuario no existe
-  const login = () => {
-    axios
-      .post(
-        `${baseUrl}/user/login`,
-        {
-          email: name,
-          password: password,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      )
-      .then(response => {
-        reactotron.log(response.data.token);
-        storeData(response.data.token);
-        showMessages('Login successful', '#31bfb5');
-        navigation.navigate('UserHome');
-      })
-      .catch(error => {
-        console.log(error.response);
-      });
-    console.log('enviado');
+  const onSubmit = async () => {
+    if (!validate()) {
+      return;
+    }
+    setLoading(true);
+
+    const data = {
+      email: email,
+      password: password,
+    };
+
+    try {
+      const response = await userLogin(data);
+      login({...response.data});
+      navigation.navigate('UserHome');
+    } catch (e) {
+      showMessages('error', 'red');
+      console.log('error en login: ', e.response);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -101,7 +98,7 @@ const Login = () => {
         </View>
         <SecondaryTitle label={texts.login.forgotPassword} message={''} />
         <View style={styles.inputGroup}>
-          <Button label={'Log in'} onPress={login} />
+          <Button label={'Log in'} onPress={onSubmit} />
           <HighlightedText
             label={texts.login.dontHaveAcc}
             props={texts.login.signUp}

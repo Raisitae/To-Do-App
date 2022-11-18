@@ -12,17 +12,17 @@ import {showMessage, hideMessage} from 'react-native-flash-message';
 import texts from '../Local/en';
 const styles = require('../Styles/Styles');
 import showMessages from '../Services/ShowMessages';
+import {userRegister} from '../Services/Api';
 
 const Register = () => {
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [confirmPassword, setConfirmPassword] = React.useState('');
-  const baseUrl = 'https://api-nodejs-todolist.herokuapp.com';
   const [validEmail, setValidEmail] = React.useState(false);
   const [validName, setValidName] = React.useState(false);
   const [validPassword, setValidPassword] = React.useState(false);
-  const [token, setToken] = React.useState('');
+  const [errorMsg, setErrorMsg] = React.useState('');
 
   //seteamos los estados de los inputs luego de realizar la comprobacion
   const handleConfirmPassword = text => {
@@ -57,38 +57,34 @@ const Register = () => {
     }
   };
 
-  //submit del formulario. faltaria agregar una funcion que borre los inputs despues de enviado el formulario
-  const submit = () => {
-    if (
-      validEmail &&
-      validName &&
-      validPassword &&
-      password === confirmPassword
-    ) {
-      axios
-        .post(
-          `${baseUrl}/user/register`,
-          {
-            name: name,
-            email: email,
-            password: password,
-          },
-          {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          },
-        )
-        .then(response => {
-          setToken(response.data.token);
-          showMessages('Datos enviados');
-        })
-        .catch(error => {
-          console.log(error.response);
-          reactotron.log('error');
-        });
-    } else {
-      showMessages(texts.message.invalid, 'red');
+  const submit = async () => {
+    setErrorMsg('');
+
+    if (password.length === 0) {
+      showMessage(texts.message.invalid, 'red');
+      return;
+    } else if (password.length < 7) {
+      showMessage(texts.message.invalid, 'red');
+      return;
+    } else if (password !== confirmPassword) {
+      showMessage(texts.message.invalid, 'red');
+      return;
+    }
+
+    const data = {
+      name: name,
+      email: email,
+      password: password,
+    };
+    reactotron.log(data);
+    try {
+      const response = await userRegister(data);
+      login({...response.data});
+      reactotron.log('response: ', response);
+    } catch (e) {
+      setErrorMsg(e.response.data);
+      showMessage(e.response.data, 'red');
+      reactotron.log('error: ', e.response.data);
     }
   };
 

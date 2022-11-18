@@ -35,38 +35,34 @@ const Welcome = () => {
 
   getData();
 
-  if (token !== '') {
-    navigation.navigate('UserHome');
-  } else {
-    return (
-      <KeyboardAvoidingView
-        style={styles.containerEnd}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-        <StatusBar
-          translucent
-          backgroundColor="transparent"
-          barStyle="dark-content"
-        />
-        <Image style={styles.elipse} source={elipse} />
-        <View
-          style={{
-            ...styles.mainOnboarding,
-            paddingBottom: 20,
-            justifyContent: 'space-around',
-          }}>
-          <View style={styles.center}>
-            <Image style={styles.imgTitle} source={onboarding} />
-            <MainTitle label={texts.welcome.mainTitle} />
-            <MainText label={texts.welcome.mainText1} />
-            <MainText label={texts.welcome.mainText2} />
-            <MainText label={texts.welcome.mainText3} />
-            <MainText label={texts.welcome.mainText4} />
-          </View>
-          <Button label={texts.welcome.btnStarted} onPress={where} />
+  return (
+    <KeyboardAvoidingView
+      style={styles.containerEnd}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <StatusBar
+        translucent
+        backgroundColor="transparent"
+        barStyle="dark-content"
+      />
+      <Image style={styles.elipse} source={elipse} />
+      <View
+        style={{
+          ...styles.mainOnboarding,
+          paddingBottom: 20,
+          justifyContent: 'space-around',
+        }}>
+        <View style={styles.center}>
+          <Image style={styles.imgTitle} source={onboarding} />
+          <MainTitle label={texts.welcome.mainTitle} />
+          <MainText label={texts.welcome.mainText1} />
+          <MainText label={texts.welcome.mainText2} />
+          <MainText label={texts.welcome.mainText3} />
+          <MainText label={texts.welcome.mainText4} />
         </View>
-      </KeyboardAvoidingView>
-    );
-  }
+        <Button label={texts.welcome.btnStarted} onPress={where} />
+      </View>
+    </KeyboardAvoidingView>
+  );
 };
 
 export default Welcome;

@@ -1,58 +1,33 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Image, StatusBar, KeyboardAvoidingView} from 'react-native';
 import elipse from '../Assets/elipse.png';
 import Button from '../Components/Button/Button';
 import MainTitle from '../Components/Titles/MainTitle';
 const styles = require('../Styles/Styles');
-import Reactotron from 'reactotron-react-native';
+import reactotron from 'reactotron-react-native';
 import {useNavigation} from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
+import {dataAsync} from '../Services/LocalStorage';
+import {userLogout} from '../Services/Api';
+import showMessages from '../Services/ShowMessages';
 
 const UserHome = () => {
-  const baseUrl = 'https://api-nodejs-todolist.herokuapp.com';
+  const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
-  const [token, setToken] = React.useState('');
 
-  //obtenemos el token del storage
-  const getData = async () => {
-    try {
-      const value = await AsyncStorage.getItem('@storage_Key');
-      if (value !== null) {
-        // value previously stored
-        setToken(value);
-        return token;
-      }
-    } catch (e) {
-      // error reading value
-    }
-  };
-
-  getData();
-
-  // funcion para cerrar sesion
-  const logout = () => {
-    axios
-      .post(
-        `${baseUrl}/user/logout`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      )
-      .then(response => {
-        console.log(response);
-        AsyncStorage.removeItem('@storage_Key');
-        navigation.navigate('Welcome');
-      })
-      .catch(error => {
-        console.log(error);
-      });
-
-    AsyncStorage.removeItem('@storage_Key');
-    navigation.navigate('Welcome');
+  const onPressOut = async () => {
+    setLoading(true);
+    await dataAsync().then(token => {
+      userLogout(token)
+        .then(response => {
+          showMessages('Sesion cerrada', '#31bfb5');
+          navigation.navigate('Login');
+          return response;
+        })
+        .catch(error => {
+          console.log(error.response);
+        });
+    });
+    setLoading(false);
   };
 
   return (
@@ -72,7 +47,7 @@ const UserHome = () => {
           justifyContent: 'space-around',
         }}>
         <View style={styles.center}>
-          <MainTitle label={'Al fin lograste entrar!!!'} />
+          <MainTitle label={'Iniciaste sesión'} />
         </View>
         <Button
           label={'Create new task'}
@@ -80,7 +55,7 @@ const UserHome = () => {
             navigation.navigate('NewTask');
           }}
         />
-        <Button label={'Log out'} onPress={logout} />
+        <Button label={'Log out'} onPress={onPressOut} />
       </View>
     </KeyboardAvoidingView>
   );
