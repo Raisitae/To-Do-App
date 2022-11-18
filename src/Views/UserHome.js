@@ -46,16 +46,20 @@ const UserHome = () => {
           paddingBottom: 20,
           justifyContent: 'space-around',
         }}>
-        <View style={styles.center}>
-          <MainTitle label={'Iniciaste sesión'} />
+        <MainTitle label={'Iniciaste sesión'} />
+        <View style={styles.inputGroup}>
+          <View style={{...styles.inputGroup, marginBottom: 20}}>
+            <Button
+              label={'Create new task'}
+              onPress={() => {
+                navigation.navigate('NewTask');
+              }}
+            />
+          </View>
+          <View style={styles.inputGroup}>
+            <Button label={'Log out'} onPress={onPressOut} />
+          </View>
         </View>
-        <Button
-          label={'Create new task'}
-          onPress={() => {
-            navigation.navigate('NewTask');
-          }}
-        />
-        <Button label={'Log out'} onPress={onPressOut} />
       </View>
     </KeyboardAvoidingView>
   );

@@ -99,34 +99,34 @@ const NewTask = () => {
         backgroundColor="transparent"
         barStyle="dark-content"
       />
+      <Image style={styles.elipse} source={elipse} />
       <View
         style={{
           ...styles.mainOnboarding,
+          marginBottom: 20,
         }}>
-        <View
-          style={{
-            ...styles.inputGroup,
-          }}>
-          {task ? (
-            <FlatList
-              data={task}
-              style={{height: '50%', width: '100%'}}
-              renderItem={renderItem}
-              refreshControl={
-                <RefreshControl refreshing={loading} onRefresh={getAllTasks} />
-              }
-            />
-          ) : (
-            <View style={{...styles.inputGroup, height: '50%', width: '100%'}}>
-              <MainTitle label="No hay tareas creadas" />
-            </View>
-          )}
-        </View>
+        {task ? (
+          <FlatList
+            data={task}
+            style={{height: '50%', width: '100%'}}
+            renderItem={renderItem}
+            refreshControl={
+              <RefreshControl refreshing={loading} onRefresh={getAllTasks} />
+            }
+          />
+        ) : (
+          <View style={{...styles.inputGroup, height: '67.9%', width: '100%'}}>
+            <MainTitle label="No hay tareas creadas" />
+          </View>
+        )}
         <Input input={texts.tasks.createName} function={handleTask} />
-        <Button label={texts.tasks.createBtn} onPress={createTask} />
-        <Button label={'Return'} onPress={where} />
+        <View style={{...styles.inputGroup, marginBottom: 10}}>
+          <Button label={texts.tasks.createBtn} onPress={createTask} />
+        </View>
+        <View style={styles.inputGroup}>
+          <Button label={'Return'} onPress={where} />
+        </View>
       </View>
-      <Image style={styles.elipse} source={elipse} />
     </KeyboardAvoidingView>
   );
 };
