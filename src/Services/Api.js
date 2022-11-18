@@ -37,7 +37,6 @@ export async function userLogin(data) {
   return response;
 }
 
-//revisar que no lo escribi yo
 export async function userRegister(data) {
   const name = data.name;
   const email = data.email;

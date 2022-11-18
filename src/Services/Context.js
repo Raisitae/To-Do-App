@@ -28,6 +28,7 @@ export const UserProvider = ({children}) => {
 
   const logout = () => {
     setUser(auth);
+    setTokenAuthentication('');
     storeData('token', '');
   };
 
