@@ -1,5 +1,12 @@
-import React, {useState} from 'react';
-import {View, Image, StatusBar, KeyboardAvoidingView} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {
+  View,
+  Image,
+  StatusBar,
+  KeyboardAvoidingView,
+  FlatList,
+  RefreshControl,
+} from 'react-native';
 import elipse from '../Assets/elipse.png';
 import Button from '../Components/Button/Button';
 import MainTitle from '../Components/Titles/MainTitle';
@@ -9,10 +16,34 @@ import {useNavigation} from '@react-navigation/native';
 import {dataAsync} from '../Services/LocalStorage';
 import {userLogout} from '../Services/Api';
 import showMessages from '../Services/ShowMessages';
+import {getTasks} from '../Services/Api';
 
 const UserHome = () => {
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
+  const [task, setTask] = useState('');
+
+  const getAllTasks = async () => {
+    setLoading(true);
+    const token = await dataAsync();
+    const response = await getTasks(token);
+    setTask(response.data.data);
+    setLoading(false);
+    return response.data.data;
+  };
+
+  const renderItem = ({item}) => {
+    return (
+      <View
+        style={{...styles.inputGroup, marginBottom: 20, alignSelf: 'center'}}>
+        <Button label={item.description} />
+      </View>
+    );
+  };
+
+  useEffect(() => {
+    getAllTasks();
+  }, []);
 
   const onPressOut = async () => {
     setLoading(true);
@@ -43,10 +74,24 @@ const UserHome = () => {
       <View
         style={{
           ...styles.mainOnboarding,
-          paddingBottom: 20,
+          paddingBottom: 40,
           justifyContent: 'space-around',
+          alignContent: 'center',
         }}>
-        <MainTitle label={'Iniciaste sesión'} />
+        {task ? (
+          <FlatList
+            data={task}
+            style={{height: '50%', width: '100%'}}
+            renderItem={renderItem}
+            refreshControl={
+              <RefreshControl refreshing={loading} onRefresh={getAllTasks} />
+            }
+          />
+        ) : (
+          <View style={{...styles.inputGroup, height: '67.9%', width: '100%'}}>
+            <MainTitle label="No hay tareas creadas" />
+          </View>
+        )}
         <View style={styles.inputGroup}>
           <View style={{...styles.inputGroup, marginBottom: 20}}>
             <Button

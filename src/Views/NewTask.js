@@ -22,7 +22,6 @@ import reactotron from 'reactotron-react-native';
 import showMessages from '../Services/ShowMessages';
 
 const NewTask = () => {
-  const [task, setTask] = useState('');
   const [newTask, setNewTask] = useState('');
 
   const handleTask = text => {
@@ -38,6 +37,7 @@ const NewTask = () => {
   const where = () => {
     navigation.navigate('UserHome');
   };
+
   //funciona pero hay que dividirla en modulos
   const createTask = async () => {
     if (newTask == '') {
@@ -54,7 +54,7 @@ const NewTask = () => {
         .post(
           `${baseUrl}/task`,
           {
-            description: setNewTask,
+            description: newTask,
           },
           config,
         )
@@ -68,27 +68,6 @@ const NewTask = () => {
       return response;
     }
   };
-
-  const getAllTasks = async () => {
-    setLoading(true);
-    const token = await dataAsync();
-    const response = await getTasks(token);
-    setTask(response.data.data);
-    setLoading(false);
-    return response.data.data;
-  };
-
-  const renderItem = ({item}) => {
-    return (
-      <View style={{...styles.inputGroup, marginBottom: 20}}>
-        <Button label={item.description} />
-      </View>
-    );
-  };
-
-  useEffect(() => {
-    getAllTasks();
-  }, []);
 
   return (
     <KeyboardAvoidingView
@@ -105,20 +84,6 @@ const NewTask = () => {
           ...styles.mainOnboarding,
           marginBottom: 20,
         }}>
-        {task ? (
-          <FlatList
-            data={task}
-            style={{height: '50%', width: '100%'}}
-            renderItem={renderItem}
-            refreshControl={
-              <RefreshControl refreshing={loading} onRefresh={getAllTasks} />
-            }
-          />
-        ) : (
-          <View style={{...styles.inputGroup, height: '67.9%', width: '100%'}}>
-            <MainTitle label="No hay tareas creadas" />
-          </View>
-        )}
         <Input input={texts.tasks.createName} function={handleTask} />
         <View style={{...styles.inputGroup, marginBottom: 10}}>
           <Button label={texts.tasks.createBtn} onPress={createTask} />

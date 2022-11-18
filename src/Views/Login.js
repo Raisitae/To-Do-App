@@ -89,9 +89,12 @@ const Login = () => {
             style={styles.imgTitle}
             source={require('../Assets/login.png')}
           />
-          <Input input={texts.login.placeHolderEmail} function={handleName} />
           <Input
-            input={texts.login.placeHolderPassword}
+            input={email ? email : texts.login.placeHolderEmail}
+            function={handleName}
+          />
+          <Input
+            input={password ? password : texts.login.placeHolderPassword}
             security={true}
             function={handlePassword}
           />
