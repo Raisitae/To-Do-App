@@ -8,6 +8,11 @@ export function setTokenAuthentication(value) {
   return tokenAuthentication;
 }
 
+export function setUserVar(value) {
+  const user = value;
+  return user;
+}
+
 //Estas son las funciones de las apis que son llamadas desde las distintas views
 
 export async function userLogin(data) {
@@ -124,11 +129,49 @@ export async function getTasks(data) {
       },
     })
     .then(response => {
-      //reactotron.log('response', response);
       return response;
     })
     .catch(error => {
       console.log(error.response);
+    });
+  return response;
+}
+
+export async function deleteTask(data, id) {
+  const baseUrl = 'https://api-nodejs-todolist.herokuapp.com';
+  const response = await axios
+    .delete(`${baseUrl}/task/${data}`, {
+      headers: {
+        Authorization: `Bearer ${id}`,
+        'Content-Type': 'application/json',
+      },
+    })
+    .then(response => {
+      showMessages('Tarea eliminada', '#31bfb5');
+      return response;
+    })
+    .catch(error => {
+      console.log(error.response);
+      reactotron.log(error.response);
+    });
+  return response;
+}
+
+export async function getAvatar(id) {
+  const baseUrl = 'https://api-nodejs-todolist.herokuapp.com';
+  const response = await axios
+    .get(`${baseUrl}/user/${id}/avatar`, {
+      headers: {
+        Authorization: `Bearer ${id}`,
+        'Content-Type': 'application/json',
+      },
+    })
+    .then(response => {
+      return response;
+    })
+    .catch(error => {
+      console.log(error.response);
+      reactotron.log(error.response);
     });
   return response;
 }

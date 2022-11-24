@@ -1,8 +1,9 @@
 import React, {useState, createContext} from 'react';
 import reactotron from 'reactotron-react-native';
 import {setTokenAuthentication} from '../Services/Api';
-import {storeData} from '../Services/LocalStorage';
+import {storeData, storeDataUser} from '../Services/LocalStorage';
 import t from '../Services/Translate';
+import {setUserVar} from '../Services/Api';
 
 const auth = {
   user: undefined,
@@ -23,13 +24,13 @@ export const UserProvider = ({children}) => {
     });
     reactotron.log('token', token);
     setTokenAuthentication(token);
+    setUserVar(user);
+    storeDataUser(user);
     storeData(token);
   };
 
   const logout = () => {
     setUser(auth);
-    setTokenAuthentication('');
-    storeData('token', '');
   };
 
   return (

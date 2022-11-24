@@ -1,5 +1,11 @@
 import React from 'react';
-import {View, Image, StatusBar, KeyboardAvoidingView} from 'react-native';
+import {
+  View,
+  Image,
+  StatusBar,
+  KeyboardAvoidingView,
+  SafeAreaView,
+} from 'react-native';
 import elipse from '../Assets/elipse.png';
 import onboarding from '../Assets/onboarding.png';
 import Button from '../Components/Button/Button';
@@ -36,9 +42,7 @@ const Welcome = () => {
   getData();
 
   return (
-    <KeyboardAvoidingView
-      style={styles.containerEnd}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+    <SafeAreaView style={styles.containerEnd}>
       <StatusBar
         translucent
         backgroundColor="transparent"
@@ -61,7 +65,7 @@ const Welcome = () => {
         </View>
         <Button label={texts.welcome.btnStarted} onPress={where} />
       </View>
-    </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 };
 

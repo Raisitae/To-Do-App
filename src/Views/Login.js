@@ -11,6 +11,7 @@ import texts from '../Local/en';
 import {userLogin} from '../Services/Api';
 import {AuthContext} from '../Services/Context';
 import {useNavigation} from '@react-navigation/native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const styles = require('../Styles/Styles');
 
@@ -69,9 +70,7 @@ const Login = () => {
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.containerEnd}>
+    <SafeAreaView style={{...styles.containerEnd}}>
       <StatusBar
         translucent
         backgroundColor="transparent"
@@ -109,7 +108,7 @@ const Login = () => {
           />
         </View>
       </View>
-    </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 };
 

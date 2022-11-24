@@ -6,6 +6,7 @@ import {
   Image,
   FlatList,
   RefreshControl,
+  SafeAreaView,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 const styles = require('../Styles/Styles');
@@ -70,9 +71,7 @@ const NewTask = () => {
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.containerEnd}>
+    <SafeAreaView style={styles.containerEnd}>
       <StatusBar
         translucent
         backgroundColor="transparent"
@@ -83,6 +82,7 @@ const NewTask = () => {
         style={{
           ...styles.mainOnboarding,
           marginBottom: 20,
+          justifyContent: 'center',
         }}>
         <Input input={texts.tasks.createName} function={handleTask} />
         <View style={{...styles.inputGroup, marginBottom: 10}}>
@@ -92,7 +92,7 @@ const NewTask = () => {
           <Button label={'Return'} onPress={where} />
         </View>
       </View>
-    </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 };
 

@@ -24,6 +24,20 @@ export async function getData(value) {
   }
 }
 
+export async function storeDataUser(value) {
+  try {
+    const jsonValue = JSON.stringify(value);
+    await AsyncStorage.setItem('@storage_user', jsonValue);
+  } catch (e) {
+    reactotron.log('storeData error', e);
+  }
+}
+
+export async function dataUser() {
+  const user = JSON.parse(await getData('@storage_user'));
+  return user;
+}
+
 export async function removeData(value) {
   try {
     await AsyncStorage.removeItem(value);

@@ -1,4 +1,10 @@
-import {Image, View, StatusBar, KeyboardAvoidingView} from 'react-native';
+import {
+  Image,
+  View,
+  StatusBar,
+  KeyboardAvoidingView,
+  SafeAreaView,
+} from 'react-native';
 import Button from '../Components/Button/Button';
 import MainTitle from '../Components/Titles/MainTitle';
 import SecondaryTitle from '../Components/Titles/SecondaryTitle';
@@ -76,7 +82,7 @@ const Register = () => {
       email: email,
       password: password,
     };
-    reactotron.log(data);
+
     try {
       const response = await userRegister(data);
       login({...response.data});
@@ -89,9 +95,7 @@ const Register = () => {
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.containerEnd}>
+    <SafeAreaView style={styles.containerEnd}>
       <StatusBar
         translucent
         backgroundColor="transparent"
@@ -151,7 +155,7 @@ const Register = () => {
           />
         </View>
       </View>
-    </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 };
 
