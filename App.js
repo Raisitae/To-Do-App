@@ -11,6 +11,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {MainStackNavigator} from './src/Navigation/StackNavigation';
 import FlashMessage from 'react-native-flash-message';
 import {UserProvider} from './src/Services/Context';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 const App = () => {
   return (

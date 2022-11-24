@@ -93,7 +93,7 @@ const NewTask = () => {
           />
         </View>
         <View style={styles.inputGroup}>
-          <Button label={'Return'} onPress={where} />
+          <Button label={'Return'} style={styles.button} onPress={where} />
         </View>
       </View>
     </SafeAreaView>

@@ -1,5 +1,8 @@
 apply plugin: "com.android.application"
 
+apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
+
+
 import com.android.build.OutputFile
 import org.apache.tools.ant.taskdefs.condition.Os
 
@@ -267,6 +270,8 @@ dependencies {
 
     debugImplementation("com.facebook.flipper:flipper-fresco-plugin:${FLIPPER_VERSION}") {
         exclude group:'com.facebook.flipper'
+
+        implementation project(':react-native-vector-icons')
     }
 
     if (enableHermes) {

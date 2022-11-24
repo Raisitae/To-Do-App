@@ -8,6 +8,8 @@ import {
   Text,
   SafeAreaView,
   Alert,
+  Animated,
+  TouchableOpacity,
 } from 'react-native';
 import elipse from '../Assets/elipse.png';
 import Button from '../Components/Button/Button';
@@ -24,6 +26,8 @@ import {deleteTask} from '../Services/Api';
 import ModalComponent from '../Components/Modal/ModalComponent';
 import UserProfileHeader from '../Components/UserProfileHeader/UserProfileHeader';
 import {Dimensions} from 'react-native';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const UserHome = () => {
   const [loading, setLoading] = useState(true);
@@ -78,29 +82,60 @@ const UserHome = () => {
   };
 
   const renderItem = ({item}) => {
-    return (
-      <View
-        style={{...styles.inputGroup, marginBottom: 20, alignSelf: 'center'}}>
-        <Button
-          label={item.description}
-          style={{...styles.button, backgroundColor: 'lightblue'}}
-          onPress={() => {
-            data = item._id;
-            deleteConfirm(data);
-            /* setModalVisible(true);*/
+    const leftSwipe = (progress, dragX) => {
+      //animation to come and go
+      const scale = dragX.interpolate({
+        inputRange: [0, 100],
+        outputRange: [0, 1],
+        extrapolate: 'clamp',
+      });
+      return (
+        <TouchableOpacity
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: 100,
+            height: 60,
+            borderBottomEndRadius: 20,
+            borderTopEndRadius: 20,
           }}
-        />
-      </View>
+          onPress={() => {
+            const data = item._id;
+            deleteConfirm(data);
+            setLoading(true);
+          }}>
+          <View style={{paddingLeft: 50}}>
+            <Ionicons name="trash" size={40} color="#CB0000" />
+          </View>
+        </TouchableOpacity>
+      );
+    };
+    return (
+      <Swipeable
+        renderLeftActions={leftSwipe}
+        /*onSwipeableOpen={() => deleteConfirm(item.id)}*/
+      >
+        <View
+          style={{...styles.inputGroup, marginBottom: 20, alignSelf: 'center'}}>
+          <Button
+            label={item.description}
+            style={{...styles.button, backgroundColor: 'lightblue'}}
+            onPress={() => {
+              data = item._id;
+              setModalVisible(true);
+              /* setModalVisible(true);*/
+            }}
+          />
+        </View>
+      </Swipeable>
     );
   };
 
-  const [refreshing, setRefreshing] = useState(false);
-
   useEffect(() => {
-    setRefreshing(true);
     getAllTasks();
     setLoading(false);
-  }, [refreshing]);
+    console.log('refreshh');
+  }, [loading]);
 
   const onPressOut = async () => {
     await dataAsync().then(token => {

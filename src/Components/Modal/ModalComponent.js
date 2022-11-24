@@ -32,12 +32,21 @@ const ModalComponent = ({toggleModal}) => {
         Alert.alert('Modal has been closed.');
       }}>
       <View style={styles.modalContainer}>
-        <View style={styles.modalCard}>
-          <Text>Editar tarea</Text>
+        <View
+          style={{
+            ...styles.modalCard,
+            alignItems: 'center',
+          }}>
+          <Text style={{...styles.secondaryText, marginBottom: 10}}>
+            Editar tarea
+          </Text>
           <TouchableOpacity
-            style={{backgroundColor: 'lightblue'}}
+            style={{
+              textAlign: 'center',
+              marginTop: 10,
+            }}
             onPress={toggleIt}>
-            <Text>Cerrar</Text>
+            <Text style={styles.loginText}>Cerrar</Text>
           </TouchableOpacity>
         </View>
       </View>
