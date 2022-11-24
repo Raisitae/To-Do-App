@@ -147,6 +147,7 @@ const Register = () => {
             label={texts.register.registerBtn}
             onPress={submit}
             screenName={'Register'}
+            style={styles.button}
           />
           <HighlightedText
             label={texts.register.highlightedText}

@@ -21,26 +21,6 @@ const ModalComponent = ({toggleModal}) => {
     toggleModal();
   };
 
-  const deleteConfirm = () => {
-    Alert.alert(
-      'Cerrar sesión',
-      '¿Estás seguro de que quieres cerrar sesión?',
-      [
-        {
-          text: 'Sí',
-          onPress: () => handleSignOut(),
-          style: 'cancel',
-        },
-        {
-          text: 'No',
-        },
-      ],
-      {
-        cancelable: true,
-      },
-    );
-  };
-
   return (
     <Modal
       animationType="slide"
@@ -51,15 +31,13 @@ const ModalComponent = ({toggleModal}) => {
       onRequestClose={() => {
         Alert.alert('Modal has been closed.');
       }}>
-      <View>
-        <View>
-          <Text style={{...styles.secondaryText, color: 'black'}}>
-            Editar tarea
-          </Text>
-          <TouchableOpacity onPress={toggleIt}>
-            <Text style={{...styles.secondaryText, color: 'black'}}>
-              Cerrar
-            </Text>
+      <View style={styles.modalContainer}>
+        <View style={styles.modalCard}>
+          <Text>Editar tarea</Text>
+          <TouchableOpacity
+            style={{backgroundColor: 'lightblue'}}
+            onPress={toggleIt}>
+            <Text>Cerrar</Text>
           </TouchableOpacity>
         </View>
       </View>

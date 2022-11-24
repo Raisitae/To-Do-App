@@ -5,7 +5,7 @@ const styles = require('../../Styles/Styles');
 
 const Button = textButton => {
   return (
-    <Pressable {...textButton} style={styles.button}>
+    <Pressable {...textButton} style={textButton.style}>
       <Text style={styles.buttonLabel}>{textButton.label}</Text>
     </Pressable>
   );

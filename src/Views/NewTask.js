@@ -86,7 +86,11 @@ const NewTask = () => {
         }}>
         <Input input={texts.tasks.createName} function={handleTask} />
         <View style={{...styles.inputGroup, marginBottom: 10}}>
-          <Button label={texts.tasks.createBtn} onPress={createTask} />
+          <Button
+            label={texts.tasks.createBtn}
+            style={styles.button}
+            onPress={createTask}
+          />
         </View>
         <View style={styles.inputGroup}>
           <Button label={'Return'} onPress={where} />

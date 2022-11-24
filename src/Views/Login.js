@@ -100,7 +100,7 @@ const Login = () => {
         </View>
         <SecondaryTitle label={texts.login.forgotPassword} message={''} />
         <View style={styles.inputGroup}>
-          <Button label={'Log in'} onPress={onSubmit} />
+          <Button label={'Log in'} onPress={onSubmit} style={styles.button} />
           <HighlightedText
             label={texts.login.dontHaveAcc}
             props={texts.login.signUp}

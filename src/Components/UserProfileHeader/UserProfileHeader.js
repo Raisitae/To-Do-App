@@ -15,7 +15,9 @@ import {AuthContext} from '../../Services/Context';
 const styles = require('../../Styles/Styles');
 
 const UserProfileHeader = () => {
-  const [avatar, setAvatar] = useState('');
+  const [avatar, setAvatar] = useState(
+    'https://upload.wikimedia.org/wikipedia/commons/0/04/So_happy_smiling_cat.jpg',
+  );
   const {user} = useContext(AuthContext);
   const [name, setName] = useState('');
 
@@ -25,12 +27,11 @@ const UserProfileHeader = () => {
     if (user.user !== undefined) {
       userName = user.user.name;
       reactotron.log('user', user);
-      setName(user.user.name);
+      firstName = userName.split(' ').slice(0, -1).join(' ');
+      setName(firstName);
     } else {
       setName('User');
     }
-    firstName = userName.split(' ').slice(0, -1).join(' ');
-    setName(firstName);
   };
 
   const getAvatarUser = async () => {
@@ -45,9 +46,6 @@ const UserProfileHeader = () => {
   };
 
   useEffect(() => {
-    setAvatar(
-      'https://upload.wikimedia.org/wikipedia/commons/0/04/So_happy_smiling_cat.jpg',
-    );
     getAvatarUser();
     hadlerName();
   }, []);
@@ -56,14 +54,13 @@ const UserProfileHeader = () => {
     <View
       style={{
         justifyContent: 'flex-end',
+        alignItems: 'center',
         width: '100%',
+        height: 250,
         backgroundColor: '#50C2C9',
-        height: '40%',
-        borderBottomLeftRadius: 70,
-        borderBottomRightRadius: 70,
-        borderBottomRightRadius: 500,
-        paddingBottom: 40,
-        paddingLeft: 30,
+        borderBottomRightRadius: 100,
+        borderBottomLeftRadius: 100,
+        paddingBottom: 20,
       }}>
       <TouchableOpacity>
         <Image

@@ -3,13 +3,11 @@ import {
   View,
   Image,
   StatusBar,
-  KeyboardAvoidingView,
   FlatList,
   RefreshControl,
   Text,
   SafeAreaView,
   Alert,
-  TouchableOpacity,
 } from 'react-native';
 import elipse from '../Assets/elipse.png';
 import Button from '../Components/Button/Button';
@@ -18,22 +16,23 @@ const styles = require('../Styles/Styles');
 import reactotron from 'reactotron-react-native';
 import {useNavigation} from '@react-navigation/native';
 import {dataAsync} from '../Services/LocalStorage';
-import {userLogout, getAvatar} from '../Services/Api';
+import {userLogout} from '../Services/Api';
 import showMessages from '../Services/ShowMessages';
 import {getTasks} from '../Services/Api';
 import {AuthContext, user} from '../Services/Context';
 import {deleteTask} from '../Services/Api';
 import ModalComponent from '../Components/Modal/ModalComponent';
 import UserProfileHeader from '../Components/UserProfileHeader/UserProfileHeader';
+import {Dimensions} from 'react-native';
 
 const UserHome = () => {
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
   const [task, setTask] = useState('');
   const {user, logout} = useContext(AuthContext);
-  const [name, setName] = useState('');
 
   const [modalVisible, setModalVisible] = useState(false);
+  let screenHeight = Dimensions.get('window').height;
 
   const handleOpenModal = () => {
     setModalVisible(!modalVisible);
@@ -84,10 +83,11 @@ const UserHome = () => {
         style={{...styles.inputGroup, marginBottom: 20, alignSelf: 'center'}}>
         <Button
           label={item.description}
+          style={{...styles.button, backgroundColor: 'lightblue'}}
           onPress={() => {
             data = item._id;
             deleteConfirm(data);
-            /*setModalVisible(true)*/
+            /* setModalVisible(true);*/
           }}
         />
       </View>
@@ -118,7 +118,7 @@ const UserHome = () => {
   };
 
   return (
-    <SafeAreaView style={styles.containerEnd}>
+    <SafeAreaView style={{height: screenHeight}}>
       <StatusBar
         translucent
         backgroundColor="transparent"
@@ -129,14 +129,17 @@ const UserHome = () => {
       <View
         style={{
           ...styles.mainOnboarding,
-          height: '60%',
           paddingTop: 20,
           paddingBottom: 40,
           justifyContent: 'space-around',
           alignContent: 'center',
         }}>
         {loading ? (
-          <View style={{...styles.inputGroup, height: '67.9%', width: '100%'}}>
+          <View
+            style={{
+              ...styles.inputGroup,
+              height: '68%',
+            }}>
             <MainTitle label="Cargando..." />
           </View>
         ) : task ? (
@@ -149,21 +152,26 @@ const UserHome = () => {
             }
           />
         ) : (
-          <View style={{...styles.inputGroup, height: '67.9%', width: '100%'}}>
+          <View style={{...styles.inputGroup, height: '68%'}}>
             <MainTitle label="No hay tareas creadas" />
           </View>
         )}
-        <View style={styles.inputGroup}>
-          <View style={{...styles.inputGroup, marginBottom: 20}}>
+        <View style={{...styles.inputGroup, paddingTop: 20, paddingBottom: 30}}>
+          <View style={{...styles.inputGroup, marginBottom: 10}}>
             <Button
               label={'Create new task'}
               onPress={() => {
                 navigation.navigate('NewTask');
               }}
+              style={{...styles.button}}
             />
           </View>
           <View style={styles.inputGroup}>
-            <Button label={'Log out'} onPress={onPressOut} />
+            <Button
+              label={'Log out'}
+              onPress={onPressOut}
+              style={{...styles.button}}
+            />
           </View>
         </View>
       </View>

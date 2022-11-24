@@ -63,7 +63,11 @@ const Welcome = () => {
           <MainText label={texts.welcome.mainText3} />
           <MainText label={texts.welcome.mainText4} />
         </View>
-        <Button label={texts.welcome.btnStarted} onPress={where} />
+        <Button
+          label={texts.welcome.btnStarted}
+          style={styles.button}
+          onPress={where}
+        />
       </View>
     </SafeAreaView>
   );

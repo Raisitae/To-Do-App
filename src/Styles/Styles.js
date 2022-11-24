@@ -38,6 +38,7 @@ module.exports = StyleSheet.create({
     position: 'absolute',
     top: -100,
     left: '-24%',
+    zIndex: 100,
   },
 
   input: {
@@ -93,5 +94,27 @@ module.exports = StyleSheet.create({
     justifyContent: 'center',
     alignContent: 'center',
     padding: 10,
+  },
+  /* Modal */
+  modalContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  modalCard: {
+    backgroundColor: 'white',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+    elevation: 7,
+    padding: 50,
+    width: '80%',
   },
 });
