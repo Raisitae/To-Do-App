@@ -175,3 +175,30 @@ export async function getAvatar(id) {
     });
   return response;
 }
+
+export async function updateTask(token, id, completed, title) {
+  const baseUrl = 'https://api-nodejs-todolist.herokuapp.com';
+  const response = await axios
+    .put(
+      `${baseUrl}/task/${id}`,
+      {
+        completed: completed,
+        description: title,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      },
+    )
+    .then(response => {
+      showMessages('Tarea actualizada', '#31bfb5');
+      return response;
+    })
+    .catch(error => {
+      console.log(error.response);
+      reactotron.log(error.response);
+    });
+  return response;
+}

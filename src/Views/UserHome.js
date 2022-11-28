@@ -82,6 +82,8 @@ const UserHome = () => {
   };
 
   const renderItem = ({item}) => {
+    const color = item.completed ? 'lightgreen' : 'pink';
+
     const leftSwipe = (progress, dragX) => {
       //animation to come and go
       const scale = dragX.interpolate({
@@ -119,11 +121,12 @@ const UserHome = () => {
           style={{...styles.inputGroup, marginBottom: 20, alignSelf: 'center'}}>
           <Button
             label={item.description}
-            style={{...styles.button, backgroundColor: 'lightblue'}}
+            style={{...styles.button, backgroundColor: color}}
             onPress={() => {
               data = item._id;
+              completed = item.completed;
+              title = item.description;
               setModalVisible(true);
-              /* setModalVisible(true);*/
             }}
           />
         </View>
@@ -134,7 +137,6 @@ const UserHome = () => {
   useEffect(() => {
     getAllTasks();
     setLoading(false);
-    console.log('refreshh');
   }, [loading]);
 
   const onPressOut = async () => {
@@ -142,8 +144,8 @@ const UserHome = () => {
       userLogout(token)
         .then(response => {
           showMessages('Sesion cerrada', '#31bfb5');
-          navigation.navigate('Welcome');
           logout({user: null});
+          navigation.navigate('Welcome');
           return response;
         })
         .catch(error => {
