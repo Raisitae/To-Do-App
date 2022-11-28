@@ -66,7 +66,7 @@ const ModalComponent = ({toggleModal}) => {
           <Input input={title} function={handleInput} />
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <Text style={styles.loginText}>Completed</Text>
-            <Switch onValueChange={handleSwitch} value={completed} />
+            <Switch onValueChange={handleSwitch} value={isCompleted} />
           </View>
           <TouchableOpacity
             style={{...styles.secondaryText, marginBottom: 10}}
