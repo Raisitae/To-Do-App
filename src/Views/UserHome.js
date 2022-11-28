@@ -5,11 +5,10 @@ import {
   StatusBar,
   FlatList,
   RefreshControl,
-  Text,
   SafeAreaView,
   Alert,
-  Animated,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import elipse from '../Assets/elipse.png';
 import Button from '../Components/Button/Button';
@@ -40,6 +39,9 @@ const UserHome = () => {
 
   const handleOpenModal = () => {
     setModalVisible(!modalVisible);
+    setTimeout(() => {
+      getAllTasks();
+    }, 300);
   };
 
   const getAllTasks = async () => {
@@ -73,6 +75,9 @@ const UserHome = () => {
         },
         {
           text: 'No',
+          onPress: () => {
+            setLoading(true), setLoading(false);
+          },
         },
       ],
       {
@@ -83,7 +88,6 @@ const UserHome = () => {
 
   const renderItem = ({item}) => {
     const color = item.completed ? 'lightgreen' : 'pink';
-
     const leftSwipe = (progress, dragX) => {
       //animation to come and go
       const scale = dragX.interpolate({
@@ -104,7 +108,6 @@ const UserHome = () => {
           onPress={() => {
             const data = item._id;
             deleteConfirm(data);
-            setLoading(true);
           }}>
           <View style={{paddingLeft: 50}}>
             <Ionicons name="trash" size={40} color="#CB0000" />
@@ -113,10 +116,7 @@ const UserHome = () => {
       );
     };
     return (
-      <Swipeable
-        renderLeftActions={leftSwipe}
-        /*onSwipeableOpen={() => deleteConfirm(item.id)}*/
-      >
+      <Swipeable renderLeftActions={leftSwipe}>
         <View
           style={{...styles.inputGroup, marginBottom: 20, alignSelf: 'center'}}>
           <Button
@@ -135,8 +135,11 @@ const UserHome = () => {
   };
 
   useEffect(() => {
-    getAllTasks();
-    setLoading(false);
+    const unsubscribe = navigation.addListener('focus', () => {
+      getAllTasks();
+      setLoading(false);
+    });
+    return unsubscribe;
   }, [loading]);
 
   const onPressOut = async () => {
@@ -177,7 +180,7 @@ const UserHome = () => {
               ...styles.inputGroup,
               height: '68%',
             }}>
-            <MainTitle label="Cargando..." />
+            <ActivityIndicator size="large" color="#31bfb5" />
           </View>
         ) : task ? (
           <FlatList

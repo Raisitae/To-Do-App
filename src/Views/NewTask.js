@@ -16,11 +16,10 @@ import texts from '../Local/en';
 import axios from 'axios';
 import {dataAsync} from '../Services/LocalStorage';
 import {useNavigation} from '@react-navigation/native';
-import {getTasks} from '../Services/Api';
 import Button from '../Components/Button/Button';
-import MainTitle from '../Components/Titles/MainTitle';
 import reactotron from 'reactotron-react-native';
 import showMessages from '../Services/ShowMessages';
+import Switch from '../Components/Switch/Switch';
 
 const NewTask = () => {
   const [newTask, setNewTask] = useState('');

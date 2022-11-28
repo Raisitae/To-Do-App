@@ -9,17 +9,21 @@ import {
 } from 'react-native';
 import MainTitle from '../Titles/MainTitle';
 import reactotron from 'reactotron-react-native';
-import {dataAsync} from '../../Services/LocalStorage';
 import {getAvatar} from '../../Services/Api';
 import {AuthContext} from '../../Services/Context';
 const styles = require('../../Styles/Styles');
+import ModalAvatar from '../Modal/ModalAvatar';
 
 const UserProfileHeader = () => {
-  const [avatar, setAvatar] = useState(
-    'https://upload.wikimedia.org/wikipedia/commons/0/04/So_happy_smiling_cat.jpg',
-  );
+  const [avatar, setAvatar] = useState('');
   const {user} = useContext(AuthContext);
   const [name, setName] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const handleOpenModal = () => {
+    data = user;
+    setModalVisible(!modalVisible);
+  };
 
   let firstName;
   const hadlerName = () => {
@@ -46,6 +50,9 @@ const UserProfileHeader = () => {
   };
 
   useEffect(() => {
+    setAvatar(
+      'https://upload.wikimedia.org/wikipedia/commons/0/04/So_happy_smiling_cat.jpg',
+    );
     getAvatarUser();
     hadlerName();
   }, []);
@@ -62,13 +69,16 @@ const UserProfileHeader = () => {
         borderBottomLeftRadius: 100,
         paddingBottom: 20,
       }}>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={handleOpenModal}>
         <Image
           style={{borderRadius: 100, height: 100, width: 100}}
           source={{uri: avatar}}
         />
       </TouchableOpacity>
       <MainTitle label={'Welcome ' + name} />
+      {modalVisible && (
+        <ModalAvatar data={data} toggleModal={handleOpenModal} />
+      )}
     </View>
   );
 };

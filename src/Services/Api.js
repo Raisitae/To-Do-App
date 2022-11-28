@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import axios from 'axios';
 import showMessages from './ShowMessages';
 import reactotron from 'reactotron-react-native';
+import {useNavigation} from '@react-navigation/native';
 
 export function setTokenAuthentication(value) {
   const tokenAuthentication = value;
@@ -12,8 +13,6 @@ export function setUserVar(value) {
   const user = value;
   return user;
 }
-
-//Estas son las funciones de las apis que son llamadas desde las distintas views
 
 export async function userLogin(data) {
   const email = data.email;
@@ -172,6 +171,33 @@ export async function getAvatar(id) {
     .catch(error => {
       console.log(error.response);
       reactotron.log(error.response);
+    });
+  return response;
+}
+
+export async function updateAvatar(avatar, id) {
+  const baseUrl = 'https://api-nodejs-todolist.herokuapp.com';
+  const response = await axios
+    .post(
+      `${baseUrl}/user/me/avatar`,
+      {
+        avatar: avatar,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${id}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      },
+    )
+    .then(response => {
+      reactotron.log(response);
+      showMessages('Avatar subido', '#31bfb5');
+      return response;
+    })
+    .catch(error => {
+      reactotron.log(error.response);
+      console.log(error.response);
     });
   return response;
 }
