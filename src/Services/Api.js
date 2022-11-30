@@ -17,7 +17,7 @@ export function setUserVar(value) {
 export async function userLogin(data) {
   const email = data.email;
   const password = data.password;
-  const baseUrl = 'https://api-nodejs-todolist.herokuapp.com';
+  const baseUrl = 'https://ozkavosh-todo.up.railway.app';
   const response = await axios
     .post(
       `${baseUrl}/user/login`,
@@ -45,7 +45,7 @@ export async function userRegister(data) {
   const name = data.name;
   const email = data.email;
   const password = data.password;
-  const baseUrl = 'https://api-nodejs-todolist.herokuapp.com';
+  const baseUrl = 'https://ozkavosh-todo.up.railway.app';
   const response = await axios
     .post(
       `${baseUrl}/user/register`,
@@ -72,7 +72,7 @@ export async function userRegister(data) {
 }
 
 export async function userLogout(data) {
-  const baseUrl = 'https://api-nodejs-todolist.herokuapp.com';
+  const baseUrl = 'https://ozkavosh-todo.up.railway.app';
   const response = await axios
     .post(
       `${baseUrl}/user/logout`,
@@ -120,7 +120,7 @@ export async function createTask(data) {
 */
 
 export async function getTasks(data) {
-  const baseUrl = 'https://api-nodejs-todolist.herokuapp.com';
+  const baseUrl = 'https://ozkavosh-todo.up.railway.app';
   const response = await axios
     .get(`${baseUrl}/task`, {
       headers: {
@@ -137,7 +137,7 @@ export async function getTasks(data) {
 }
 
 export async function deleteTask(data, id) {
-  const baseUrl = 'https://api-nodejs-todolist.herokuapp.com';
+  const baseUrl = 'https://ozkavosh-todo.up.railway.app';
   const response = await axios
     .delete(`${baseUrl}/task/${data}`, {
       headers: {
@@ -157,7 +157,7 @@ export async function deleteTask(data, id) {
 }
 
 export async function getAvatar(id) {
-  const baseUrl = 'https://api-nodejs-todolist.herokuapp.com';
+  const baseUrl = 'https://ozkavosh-todo.up.railway.app';
   const response = await axios
     .get(`${baseUrl}/user/${id}/avatar`, {
       headers: {
@@ -176,7 +176,7 @@ export async function getAvatar(id) {
 }
 
 export async function updateAvatar(avatar, id) {
-  const baseUrl = 'https://api-nodejs-todolist.herokuapp.com';
+  const baseUrl = 'https://ozkavosh-todo.up.railway.app';
   const response = await axios
     .post(
       `${baseUrl}/user/me/avatar`,
@@ -203,7 +203,7 @@ export async function updateAvatar(avatar, id) {
 }
 
 export async function updateTask(token, id, completed, title) {
-  const baseUrl = 'https://api-nodejs-todolist.herokuapp.com';
+  const baseUrl = 'https://ozkavosh-todo.up.railway.app';
   const response = await axios
     .put(
       `${baseUrl}/task/${id}`,

@@ -30,7 +30,7 @@ const NewTask = () => {
 
   const [loading, setLoading] = useState(false);
 
-  const baseUrl = 'https://api-nodejs-todolist.herokuapp.com';
+  const baseUrl = 'https://ozkavosh-todo.up.railway.app';
 
   const navigation = useNavigation();
 
