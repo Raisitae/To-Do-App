@@ -15,7 +15,7 @@ const styles = require('../../Styles/Styles');
 import ModalAvatar from '../Modal/ModalAvatar';
 
 const UserProfileHeader = () => {
-  const [avatar, setAvatar] = useState('');
+  const [avatar, setAvatar] = useState(null);
   const {user} = useContext(AuthContext);
   const [name, setName] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
@@ -41,10 +41,10 @@ const UserProfileHeader = () => {
   const getAvatarUser = async () => {
     const response = await getAvatar(user.token)
       .then(response => {
-        reactotron.log('data', response);
+        console.log('data', response);
       })
       .catch(error => {
-        reactotron.log(error);
+        console.log('error', error);
       });
     return response;
   };

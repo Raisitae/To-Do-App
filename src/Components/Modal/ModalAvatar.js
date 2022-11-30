@@ -14,10 +14,13 @@ import {FlatList} from 'react-native-gesture-handler';
 import avatarList from '../../Services/Avatar';
 import reactotron from 'reactotron-react-native';
 import login from '../../Assets/login.png';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 const ModalAvatar = ({toggleModal}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [avatar, setAvatar] = useState('');
+  const [imageCamera, setImageCamera] = useState(null);
 
   console.log(data.token);
   useEffect(() => {
@@ -30,17 +33,40 @@ const ModalAvatar = ({toggleModal}) => {
   };
 
   const handleAvatar = item => {
-    updateAvatar(login, data.token);
+    updateAvatar(item, data.token);
     toggleIt();
   };
+
+  const handleCamera = async () => {
+    const options = {
+      mediaType: 'photo',
+      includeBase64: false,
+      maxHeight: 200,
+      maxWidth: 200,
+    };
+
+    const result = await launchCamera(options, response => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.errorCode) {
+        console.log('ImagePicker Error: ', response.errorCode);
+      } else {
+        console.log(response.uri);
+        setImageCamera(response.assets[0].uri);
+      }
+      console.log('result', result);
+    });
+  };
+
+  console.log('imagen', imageCamera);
 
   const renderAvatar = ({item}) => {
     console.log(item);
     return (
       <TouchableOpacity
         style={{padding: 10}}
-        onPress={() => handleAvatar(item.url)}
-        key={item.id}>
+        key={item.id}
+        onPress={() => handleAvatar(item.url)}>
         <Image
           source={{uri: item.url}}
           style={{borderRadius: 100, height: 100, width: 100}}
@@ -78,13 +104,34 @@ const ModalAvatar = ({toggleModal}) => {
             contentContainerStyle={{alignItems: 'center'}}
             keyExtractor={item => item.name}
           />
+          {imageCamera && (
+            <View>
+              <Image
+                source={{uri: imageCamera}}
+                style={{height: 100, width: 100, borderRadius: 100}}
+              />
+            </View>
+          )}
           <TouchableOpacity
             style={{
+              ...styles.button,
               textAlign: 'center',
-              marginTop: 10,
+              borderRadius: 50,
+              height: 60,
+              width: 60,
+              margin: 10,
+            }}
+            onPress={handleCamera}>
+            <Ionicons name="camera" size={40} color="white" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              ...styles.button,
+              textAlign: 'center',
+              height: 40,
             }}
             onPress={toggleIt}>
-            <Text style={styles.loginText}>Cerrar</Text>
+            <Text style={{...styles.buttonLabel, padding: 2}}>Cerrar</Text>
           </TouchableOpacity>
         </View>
       </View>

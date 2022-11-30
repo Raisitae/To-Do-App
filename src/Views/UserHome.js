@@ -46,20 +46,22 @@ const UserHome = () => {
 
   const getAllTasks = async () => {
     setLoading(true);
-    // si saco el token de localstorage tarda un poco y cuando entro no hay nada
-    //const token = await dataAsync();
-    //si lo saco del context no hay problema
     const response = await getTasks(user.token);
-    setTask(response.data.data);
-    setLoading(false);
+    setTimeout(() => {
+      setTask(response.data.data);
+      setLoading(false);
+    }, 300);
+
     return response.data.data;
   };
 
   const deleteTasks = async data => {
     setLoading(true);
     const token = await dataAsync();
-    deleteTask(data, token);
-    getAllTasks();
+    setTimeout(() => {
+      deleteTask(data, token);
+      getAllTasks();
+    }, 300);
     setLoading(false);
   };
 
@@ -89,7 +91,6 @@ const UserHome = () => {
   const renderItem = ({item}) => {
     const color = item.completed ? 'lightgreen' : 'pink';
     const leftSwipe = (progress, dragX) => {
-      //animation to come and go
       const scale = dragX.interpolate({
         inputRange: [0, 100],
         outputRange: [0, 1],

@@ -177,16 +177,20 @@ export async function getAvatar(id) {
 
 export async function updateAvatar(avatar, id) {
   const baseUrl = 'https://ozkavosh-todo.up.railway.app';
+  let data = new FormData();
+  data.append('file', avatar, 'avatarName');
   const response = await axios
     .post(
       `${baseUrl}/user/me/avatar`,
       {
-        avatar: avatar,
+        avatar: data,
       },
       {
         headers: {
+          accept: 'application/json',
+          'Accept-Language': 'en-US,en;q=0.8',
+          'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
           Authorization: `Bearer ${id}`,
-          'Content-Type': 'multipart/form-data',
         },
       },
     )
