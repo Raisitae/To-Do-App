@@ -175,36 +175,25 @@ export async function getAvatar(id) {
   return response;
 }
 
-export async function updateAvatar(avatar, id) {
+export const postAvatar = async (avatarData, token) => {
   const baseUrl = 'https://ozkavosh-todo.up.railway.app';
-  let data = new FormData();
-  data.append('file', avatar, 'avatarName');
-  const response = await axios
-    .post(
-      `${baseUrl}/user/me/avatar`,
-      {
-        avatar: data,
+  try {
+    const request = await axios({
+      method: 'POST',
+      url: `${baseUrl}/user/me/avatar`,
+      data: avatarData,
+      transformRequest: data => data,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data',
       },
-      {
-        headers: {
-          accept: 'application/json',
-          'Accept-Language': 'en-US,en;q=0.8',
-          'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
-          Authorization: `Bearer ${id}`,
-        },
-      },
-    )
-    .then(response => {
-      reactotron.log(response);
-      showMessages('Avatar subido', '#31bfb5');
-      return response;
-    })
-    .catch(error => {
-      reactotron.log(error.response);
-      console.log(error.response);
     });
-  return response;
-}
+    return request;
+  } catch (e) {
+    console.log('error en PostAvatar', e.response);
+    reactotron.log(e.response);
+  }
+};
 
 export async function updateTask(token, id, completed, title) {
   const baseUrl = 'https://ozkavosh-todo.up.railway.app';

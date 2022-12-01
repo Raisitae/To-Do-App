@@ -9,11 +9,10 @@ import {
   Image,
 } from 'react-native';
 const styles = require('../../Styles/Styles');
-import {updateAvatar} from '../../Services/Api';
+import {postAvatar} from '../../Services/Api';
 import {FlatList} from 'react-native-gesture-handler';
 import avatarList from '../../Services/Avatar';
 import reactotron from 'reactotron-react-native';
-import login from '../../Assets/login.png';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
@@ -32,9 +31,37 @@ const ModalAvatar = ({toggleModal}) => {
     toggleModal();
   };
 
-  const handleAvatar = item => {
-    updateAvatar(item, data.token);
-    toggleIt();
+  const handleAvatar = async (item, id) => {
+    try {
+      const result = await launchImageLibrary({
+        maxWidth: 250,
+        maxHeight: 250,
+      });
+      const formData = new FormData();
+      formData.append('avatar', {
+        uri: result.uri,
+        type: result.type,
+        name: result.fileName,
+      });
+      await postAvatar(formData, data.token);
+    } catch (error) {
+      console.log('error', error);
+    }
+
+    /*
+    try {
+      const result = item.url;
+      const formData = new FormData();
+      formData.append('avatar', {
+        uri: result,
+        name: 'avatar.png',
+        type: 'image/png',
+      });
+      await postAvatar(formData, data.token);
+    } catch (e) {
+      console.log('error', e);
+    }
+    */
   };
 
   const handleCamera = async () => {
@@ -58,17 +85,14 @@ const ModalAvatar = ({toggleModal}) => {
     });
   };
 
-  console.log('imagen', imageCamera);
-
   const renderAvatar = ({item}) => {
-    console.log(item);
     return (
       <TouchableOpacity
         style={{padding: 10}}
         key={item.id}
-        onPress={() => handleAvatar(item.url)}>
+        onPress={() => handleAvatar(item, data.token)}>
         <Image
-          source={{uri: item.url}}
+          source={item.url}
           style={{borderRadius: 100, height: 100, width: 100}}
         />
       </TouchableOpacity>
@@ -93,8 +117,8 @@ const ModalAvatar = ({toggleModal}) => {
             backgroundColor: 'lightgrey',
             padding: 20,
           }}>
-          <Text style={{...styles.secondaryText, marginBottom: 10}}>
-            Cambiar avatar
+          <Text style={{...styles.textTitle, fontSize: 18, marginBottom: 10}}>
+            Change avatar
           </Text>
           <FlatList
             data={avatar}
@@ -104,13 +128,22 @@ const ModalAvatar = ({toggleModal}) => {
             contentContainerStyle={{alignItems: 'center'}}
             keyExtractor={item => item.name}
           />
+          <Text
+            style={{
+              ...styles.textTitle,
+              fontSize: 18,
+              marginTop: 20,
+              marginBottom: 10,
+            }}>
+            Upload a photo
+          </Text>
           {imageCamera && (
-            <View>
+            <TouchableOpacity onPress={() => handleAvatar(imageCamera)}>
               <Image
                 source={{uri: imageCamera}}
                 style={{height: 100, width: 100, borderRadius: 100}}
               />
-            </View>
+            </TouchableOpacity>
           )}
           <TouchableOpacity
             style={{
@@ -120,6 +153,7 @@ const ModalAvatar = ({toggleModal}) => {
               height: 60,
               width: 60,
               margin: 10,
+              marginBottom: 20,
             }}
             onPress={handleCamera}>
             <Ionicons name="camera" size={40} color="white" />

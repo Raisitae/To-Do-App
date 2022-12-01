@@ -6,6 +6,7 @@ import {
   Image,
   FlatList,
   RefreshControl,
+  Switch,
   SafeAreaView,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
@@ -19,7 +20,7 @@ import {useNavigation} from '@react-navigation/native';
 import Button from '../Components/Button/Button';
 import reactotron from 'reactotron-react-native';
 import showMessages from '../Services/ShowMessages';
-import Switch from '../Components/Switch/Switch';
+import HighlightedText from '../Components/Texts/HighlightedText';
 
 const NewTask = () => {
   const [newTask, setNewTask] = useState('');
@@ -80,19 +81,29 @@ const NewTask = () => {
       <View
         style={{
           ...styles.mainOnboarding,
-          marginBottom: 20,
-          justifyContent: 'center',
         }}>
-        <Input input={texts.tasks.createName} function={handleTask} />
-        <View style={{...styles.inputGroup, marginBottom: 10}}>
-          <Button
-            label={texts.tasks.createBtn}
-            style={styles.button}
-            onPress={createTask}
+        <View style={{width: '100%', alignItems: 'center'}}>
+          <Image
+            style={{...styles.imgTitle, marginBottom: 40}}
+            source={require('../Assets/newtask.png')}
           />
+          <Input input={texts.tasks.createName} function={handleTask} />
+          <View style={{flexDirection: 'row', marginBottom: 10}}>
+            <HighlightedText label={'Completed'} />
+            <Switch />
+          </View>
         </View>
-        <View style={styles.inputGroup}>
-          <Button label={'Return'} style={styles.button} onPress={where} />
+        <View style={{...styles.inputGroup}}>
+          <View style={{...styles.inputGroup, marginBottom: 10}}>
+            <Button
+              label={texts.tasks.createBtn}
+              style={styles.button}
+              onPress={createTask}
+            />
+          </View>
+          <View style={{...styles.inputGroup}}>
+            <Button label={'Return'} style={styles.button} onPress={where} />
+          </View>
         </View>
       </View>
     </SafeAreaView>

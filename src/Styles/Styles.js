@@ -8,7 +8,7 @@ module.exports = StyleSheet.create({
     backgroundColor: '#EDEDEE',
   },
   button: {
-    backgroundColor: '#50C2C9',
+    backgroundColor: '#8482D6',
     width: '85%',
     height: 60,
     borderRadius: 20,
@@ -29,7 +29,7 @@ module.exports = StyleSheet.create({
   },
 
   loginText: {
-    color: '#50C2C9',
+    color: '#A7A5FF',
     fontSize: 15,
     fontWeight: 'bold',
   },
@@ -59,8 +59,8 @@ module.exports = StyleSheet.create({
   },
 
   imgTitle: {
-    width: 200,
     height: 200,
+    width: 200,
     marginBottom: 30,
   },
   textDescription: {

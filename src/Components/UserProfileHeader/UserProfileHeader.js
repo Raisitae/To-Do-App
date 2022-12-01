@@ -13,6 +13,7 @@ import {getAvatar} from '../../Services/Api';
 import {AuthContext} from '../../Services/Context';
 const styles = require('../../Styles/Styles');
 import ModalAvatar from '../Modal/ModalAvatar';
+import baseAvatar from '../../Assets/UserPics/1.png';
 
 const UserProfileHeader = () => {
   const [avatar, setAvatar] = useState(null);
@@ -50,13 +51,12 @@ const UserProfileHeader = () => {
   };
 
   useEffect(() => {
-    setAvatar(
-      'https://upload.wikimedia.org/wikipedia/commons/0/04/So_happy_smiling_cat.jpg',
-    );
+    console.log(avatar);
     getAvatarUser();
     hadlerName();
   }, []);
 
+  console.log(avatar);
   return (
     <View
       style={{
@@ -64,7 +64,7 @@ const UserProfileHeader = () => {
         alignItems: 'center',
         width: '100%',
         height: 250,
-        backgroundColor: '#50C2C9',
+        backgroundColor: '#8482D6',
         borderBottomRightRadius: 100,
         borderBottomLeftRadius: 100,
         paddingBottom: 20,
@@ -72,7 +72,9 @@ const UserProfileHeader = () => {
       <TouchableOpacity onPress={handleOpenModal}>
         <Image
           style={{borderRadius: 100, height: 100, width: 100}}
-          source={{uri: avatar}}
+          source={
+            avatar !== null ? {avatar} : require('../../Assets/UserPics/1.png')
+          }
         />
       </TouchableOpacity>
       <MainTitle label={'Welcome ' + name} />

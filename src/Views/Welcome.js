@@ -24,7 +24,6 @@ const Welcome = () => {
   };
 
   const [token, setToken] = React.useState('');
-
   //obtenemos el token del storage
   const getData = async () => {
     try {
