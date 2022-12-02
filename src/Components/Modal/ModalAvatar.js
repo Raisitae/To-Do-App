@@ -74,11 +74,12 @@ const ModalAvatar = ({toggleModal}) => {
 
   return (
     <Modal
-      animationType="slide"
+      animationType="fade"
       transparent={true}
       onClose={() => setIsOpen(false)}
       onOpen={() => setIsOpen(true)}
       open={isOpen}
+      statusBarTranslucent
       onRequestClose={() => {
         Alert.alert('Modal has been closed.');
       }}>
@@ -87,8 +88,10 @@ const ModalAvatar = ({toggleModal}) => {
           style={{
             ...styles.modalCard,
             alignItems: 'center',
-            backgroundColor: 'lightgrey',
-            padding: 20,
+            backgroundColor: '#EDEDEE',
+            padding: 40,
+            paddingTop: 60,
+            paddingBottom: 60,
           }}>
           <Text style={{...styles.textTitle, fontSize: 18, marginBottom: 10}}>
             Change avatar

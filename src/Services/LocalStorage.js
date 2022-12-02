@@ -57,12 +57,11 @@ export async function dataUser() {
   return user;
 }
 
-export async function removeData(value) {
+export async function removeData() {
   try {
-    await AsyncStorage.removeItem(value);
+    await AsyncStorage.removeItem('@storage_Key');
   } catch (e) {
     // remove error
   }
-
   console.log('Done.');
 }

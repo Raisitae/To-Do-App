@@ -6,6 +6,7 @@ const styles = require('../../Styles/Styles');
 import Input from '../Input/Input';
 import {updateTask} from '../../Services/Api';
 import {AuthContext, user} from '../../Services/Context';
+import {Dimensions} from 'react-native';
 
 const ModalComponent = ({toggleModal}) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -35,13 +36,16 @@ const ModalComponent = ({toggleModal}) => {
     toggleIt();
   };
 
+  const screenHeight = Dimensions.get('window').height;
+
   return (
     <Modal
-      animationType="slide"
+      animationType="fade"
       transparent={true}
       onClose={() => setIsOpen(false)}
       onOpen={() => setIsOpen(true)}
       open={isOpen}
+      statusBarTranslucent
       onRequestClose={() => {
         Alert.alert('Modal has been closed.');
       }}>
@@ -49,30 +53,65 @@ const ModalComponent = ({toggleModal}) => {
         <View
           style={{
             ...styles.modalCard,
+            height: screenHeight * 0.6,
             alignItems: 'center',
-            backgroundColor: 'lightgrey',
+            backgroundColor: '#EDEDEE',
+            justifyContent: 'space-evenly',
           }}>
-          <Text style={{...styles.secondaryText, marginBottom: 10}}>
+          <Text style={{...styles.textTitle, fontSize: 18, marginBottom: 10}}>
             Editar tarea
           </Text>
-          <Input input={title} function={handleInput} />
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Text style={styles.loginText}>Completed</Text>
-            <Switch onValueChange={handleSwitch} value={isCompleted} />
-          </View>
-          <TouchableOpacity
-            style={{...styles.secondaryText, marginBottom: 10}}
-            onPress={editTaskHandler}>
-            <Text style={styles.loginText}>Editar tarea</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
+          <View
             style={{
-              textAlign: 'center',
-              marginTop: 10,
-            }}
-            onPress={toggleIt}>
-            <Text style={styles.loginText}>Cerrar</Text>
-          </TouchableOpacity>
+              width: '100%',
+              alignItems: 'center',
+              justifyContent: 'space-around',
+            }}>
+            <Input input={title} function={handleInput} />
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginBottom: 10,
+              }}>
+              <Text
+                style={{
+                  ...styles.mainTitle,
+                  fontSize: 15,
+                }}>
+                Completed
+              </Text>
+              <Switch onValueChange={handleSwitch} value={isCompleted} />
+            </View>
+          </View>
+          <View
+            style={{
+              width: '100%',
+              alignItems: 'center',
+              justifyContent: 'space-around',
+            }}>
+            <TouchableOpacity
+              style={{
+                ...styles.button,
+                textAlign: 'center',
+                height: 40,
+                marginBottom: 10,
+              }}
+              onPress={editTaskHandler}>
+              <Text style={{...styles.buttonLabel, fontSize: 15}}>
+                Editar tarea
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                ...styles.button,
+                textAlign: 'center',
+                height: 40,
+              }}
+              onPress={toggleIt}>
+              <Text style={{...styles.buttonLabel, fontSize: 15}}>Cerrar</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </Modal>

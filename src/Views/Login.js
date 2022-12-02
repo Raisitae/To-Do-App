@@ -30,11 +30,19 @@ const Login = () => {
   };
 
   const validate = () => {
+    if (email === '' && password === '') {
+      showMessages(texts.message.emptyFields, 'red');
+      return false;
+    }
+    if (email.length < 5) {
+      showMessages(texts.message.noEmail, 'red');
+      return false;
+    }
     if (password.length === 0) {
-      showMessages('no hay contraseña', 'red');
+      showMessages(texts.message.noPassword, 'red');
       return false;
     } else if (password.length < 7) {
-      showMessages('la contraseña es demasiado corta', 'red');
+      showMessages(texts.message.invalid, 'red');
       return false;
     }
 
@@ -55,10 +63,11 @@ const Login = () => {
     try {
       const response = await userLogin(data);
       login({...response.data});
+      showMessages(texts.message.logIn, '#31bfb5');
       navigation.navigate('UserHome');
     } catch (e) {
-      showMessages('error', 'red');
-      console.log('error en login: ', e.response);
+      showMessages(texts.message.invalidUserInformation, 'red');
+      console.log(e);
     } finally {
       setLoading(false);
     }
@@ -90,7 +99,10 @@ const Login = () => {
             function={handlePassword}
           />
         </View>
-        <SecondaryTitle label={texts.login.forgotPassword} message={''} />
+        <SecondaryTitle
+          label={texts.login.forgotPassword}
+          message={texts.message.forgetPassword}
+        />
         <View style={styles.inputGroup}>
           <Button label={'Log in'} onPress={onSubmit} style={styles.button} />
           <HighlightedText

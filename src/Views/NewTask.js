@@ -21,9 +21,10 @@ import Button from '../Components/Button/Button';
 import reactotron from 'reactotron-react-native';
 import showMessages from '../Services/ShowMessages';
 import HighlightedText from '../Components/Texts/HighlightedText';
+import MainTitle from '../Components/Titles/MainTitle';
 
 const NewTask = () => {
-  const [isCompleted, setIsCompleted] = useState(completed);
+  const [isCompleted, setIsCompleted] = useState(false);
 
   const [newTask, setNewTask] = useState('');
 
@@ -66,6 +67,8 @@ const NewTask = () => {
         )
         .then(response => {
           navigation.navigate('UserHome');
+          showMessages(texts.message.taskCreated, '#31bfb5');
+
           return response;
         })
         .catch(error => {
@@ -88,6 +91,7 @@ const NewTask = () => {
           ...styles.mainOnboarding,
         }}>
         <View style={{width: '100%', alignItems: 'center'}}>
+          <MainTitle label={texts.tasks.mainTitle} />
           <Image
             style={{...styles.imgTitle, marginBottom: 40}}
             source={require('../Assets/newtask.png')}

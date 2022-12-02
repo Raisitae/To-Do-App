@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {View, Image, TouchableOpacity, ActivityIndicator} from 'react-native';
+import {View, Image, TouchableOpacity, Text} from 'react-native';
 import MainTitle from '../Titles/MainTitle';
 import reactotron from 'reactotron-react-native';
 import {getAvatar} from '../../Services/LocalStorage';
@@ -60,7 +60,7 @@ const UserProfileHeader = () => {
         justifyContent: 'flex-end',
         alignItems: 'center',
         width: '100%',
-        height: 250,
+        height: 210,
         backgroundColor: '#8482D6',
         borderBottomRightRadius: 100,
         borderBottomLeftRadius: 100,
@@ -68,7 +68,7 @@ const UserProfileHeader = () => {
       }}>
       <TouchableOpacity onPress={handleOpenModal}>
         <Image
-          style={{borderRadius: 100, height: 100, width: 100}}
+          style={{borderRadius: 100, height: 100, width: 100, marginBottom: 10}}
           source={
             thisAvatar !== null
               ? {uri: thisAvatar}
@@ -76,7 +76,9 @@ const UserProfileHeader = () => {
           }
         />
       </TouchableOpacity>
-      <MainTitle label={'Welcome ' + name} />
+      <Text style={{...styles.buttonLabel, fontSize: 20, color: '#25247B'}}>
+        {'Welcome ' + name}
+      </Text>
       {modalVisible && (
         <ModalAvatar data={data} toggleModal={handleOpenModal} />
       )}

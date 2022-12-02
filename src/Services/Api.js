@@ -3,6 +3,7 @@ import axios from 'axios';
 import showMessages from './ShowMessages';
 import reactotron from 'reactotron-react-native';
 import {useNavigation} from '@react-navigation/native';
+import texts from '../Local/en';
 
 export function setTokenAuthentication(value) {
   const tokenAuthentication = value;
@@ -32,11 +33,11 @@ export async function userLogin(data) {
       },
     )
     .then(response => {
-      showMessages('Bienvenido', '#31bfb5');
+      showMessages(texts.message.welome, '#31bfb5');
       return response;
     })
     .catch(error => {
-      console.log('ups' + error.response);
+      console.log('ups' + error);
     });
   return response;
 }
@@ -61,7 +62,7 @@ export async function userRegister(data) {
       },
     )
     .then(response => {
-      showMessages('Datos enviados');
+      showMessages(texts.message.register, '#31bfb5');
       return response;
     })
     .catch(error => {
@@ -74,17 +75,22 @@ export async function userRegister(data) {
 export async function userLogout(data) {
   const baseUrl = 'https://ozkavosh-todo.up.railway.app';
   const response = await axios
-    .post(`${baseUrl}/user/logout`, {
-      headers: {
-        Authorization: `Bearer ${data}`,
+    .post(
+      `${baseUrl}/user/logout`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${data}`,
+        },
       },
-    })
+    )
     .then(response => {
       console.log(response);
       return response;
     })
     .catch(error => {
-      console.log(error);
+      console.log(error.response);
+      reactotron.log(error.response);
     });
   return response;
 }
@@ -142,7 +148,7 @@ export async function deleteTask(data, id) {
       },
     })
     .then(response => {
-      showMessages('Tarea eliminada', '#31bfb5');
+      showMessages(texts.message.taskDeleted, '#31bfb5');
       return response;
     })
     .catch(error => {
@@ -171,6 +177,7 @@ export async function getAvatar(id) {
   return response;
 }
 
+/*
 export const postAvatar = async (avatarData, token) => {
   const baseUrl = 'https://ozkavosh-todo.up.railway.app';
   try {
@@ -190,6 +197,7 @@ export const postAvatar = async (avatarData, token) => {
     reactotron.log(e.response);
   }
 };
+*/
 
 export async function updateTask(token, id, completed, title) {
   const baseUrl = 'https://ozkavosh-todo.up.railway.app';
@@ -208,7 +216,7 @@ export async function updateTask(token, id, completed, title) {
       },
     )
     .then(response => {
-      showMessages('Tarea actualizada', '#31bfb5');
+      showMessages(texts.message.taskUpdated, '#31bfb5');
       return response;
     })
     .catch(error => {

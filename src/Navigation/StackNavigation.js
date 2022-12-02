@@ -17,7 +17,7 @@ const Stack = createStackNavigator();
 const MainStackNavigator = () => {
   const [loading, setLoading] = useState(true);
   const {user, login} = useContext(AuthContext);
-  reactotron.log(user.isLoggedIn);
+  console.log('user logged in', user.isLoggedIn);
   useEffect(() => {
     dataAsync().then(res => {
       if (!res) {

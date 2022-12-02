@@ -35,7 +35,11 @@ export const UserProvider = ({children}) => {
   };
 
   const logout = () => {
-    setUser(auth);
+    setUser({
+      user: undefined,
+      isLoggedIn: false,
+      token: '',
+    });
   };
 
   return (

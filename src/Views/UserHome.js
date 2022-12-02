@@ -16,17 +16,18 @@ import MainTitle from '../Components/Titles/MainTitle';
 const styles = require('../Styles/Styles');
 import reactotron from 'reactotron-react-native';
 import {useNavigation} from '@react-navigation/native';
-import {dataAsync} from '../Services/LocalStorage';
+import {dataAsync, removeData} from '../Services/LocalStorage';
 import {userLogout} from '../Services/Api';
 import showMessages from '../Services/ShowMessages';
 import {getTasks} from '../Services/Api';
-import {AuthContext, user} from '../Services/Context';
+import {AuthContext} from '../Services/Context';
 import {deleteTask} from '../Services/Api';
 import ModalComponent from '../Components/Modal/ModalComponent';
 import UserProfileHeader from '../Components/UserProfileHeader/UserProfileHeader';
 import {Dimensions} from 'react-native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import texts from '../Local/en';
 
 const UserHome = () => {
   const [loading, setLoading] = useState(true);
@@ -89,7 +90,7 @@ const UserHome = () => {
   };
 
   const renderItem = ({item}) => {
-    const color = item.completed ? 'lightgreen' : 'pink';
+    const color = item.completed ? '#82D6C2' : '#9290E7';
     const leftSwipe = (progress, dragX) => {
       const scale = dragX.interpolate({
         inputRange: [0, 100],
@@ -147,9 +148,10 @@ const UserHome = () => {
     await dataAsync().then(token => {
       userLogout(token)
         .then(response => {
-          showMessages('Sesion cerrada', '#31bfb5');
-          logout({user: null});
-          navigation.navigate('Welcome');
+          console.log(user);
+          removeData();
+          logout();
+          showMessages(texts.message.logOut, '#31bfb5');
           return response;
         })
         .catch(error => {
@@ -170,20 +172,20 @@ const UserHome = () => {
       <View
         style={{
           ...styles.mainOnboarding,
-          paddingTop: 20,
+          paddingTop: 40,
           paddingBottom: 40,
-          justifyContent: 'space-around',
+          justifyContent: 'space-between',
           alignContent: 'center',
         }}>
         {loading ? (
           <View
             style={{
               ...styles.inputGroup,
-              height: '68%',
+              height: '50%',
             }}>
             <ActivityIndicator size="large" color="#31bfb5" />
           </View>
-        ) : task ? (
+        ) : task.length ? (
           <FlatList
             data={task}
             style={{height: '50%', width: '100%'}}
@@ -193,11 +195,11 @@ const UserHome = () => {
             }
           />
         ) : (
-          <View style={{...styles.inputGroup, height: '68%'}}>
-            <MainTitle label="No hay tareas creadas" />
+          <View style={{...styles.inputGroup, height: '50%'}}>
+            <MainTitle label={texts.tasks.noTasks} />
           </View>
         )}
-        <View style={{...styles.inputGroup, paddingTop: 20, paddingBottom: 30}}>
+        <View style={{...styles.inputGroup, paddingTop: 20}}>
           <View style={{...styles.inputGroup, marginBottom: 10}}>
             <Button
               label={'Create new task'}

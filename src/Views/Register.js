@@ -18,6 +18,7 @@ const styles = require('../Styles/Styles');
 import showMessages from '../Services/ShowMessages';
 import {userRegister} from '../Services/Api';
 import {useNavigation} from '@react-navigation/native';
+import {Dimensions} from 'react-native';
 
 const Register = () => {
   const [name, setName] = React.useState('');
@@ -34,6 +35,8 @@ const Register = () => {
     setConfirmPassword(text);
   };
 
+  const screenHeight = Dimensions.get('window').height;
+
   const checkValidEmail = text => {
     const emailRegex =
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -41,19 +44,29 @@ const Register = () => {
     setEmail(text);
     if (emailRegex.test(text) && email !== '') {
       setValidEmail(true);
+      console.log(validEmail);
+
+      return true;
     } else {
       setValidEmail(false);
+      console.log(validEmail);
+
+      return false;
     }
   };
+
   const checkValidName = text => {
-    const nameRegex = /^[a-zA-Z_ ]*$/;
+    const nameRegex = /^[A-Za-z ]+$/;
     setName(text);
     if (nameRegex.test(text) && name !== '') {
       setValidName(true);
+      return true;
     } else {
       setValidName(false);
+      return false;
     }
   };
+
   const checkValidPassword = text => {
     setPassword(text);
     if (password.length >= 7 && password !== '') {
@@ -63,19 +76,29 @@ const Register = () => {
     }
   };
 
-  const submit = async () => {
-    setErrorMsg('');
-
-    if (password.length === 0) {
-      showMessage(texts.message.invalid, 'red');
-      return;
-    } else if (password.length < 7) {
-      showMessage(texts.message.invalid, 'red');
-      return;
+  const validateData = () => {
+    if (name === '' || email === '' || password === '') {
+      showMessages(texts.message.emptyFields, 'red');
+      return false;
+    } else if (!validName) {
+      showMessages(texts.message.invalidName, 'red');
+      return false;
+    } else if (!validEmail) {
+      showMessages(texts.message.invalidEmail, 'red');
+      return false;
+    } else if (password.length === 0 || password.length < 7) {
+      showMessages(texts.message.invalidPassword, 'red');
+      return false;
     } else if (password !== confirmPassword) {
-      showMessage(texts.message.invalid, 'red');
-      return;
+      showMessages(texts.message.passwordNotMatch, 'red');
+      return false;
+    } else {
+      return true;
     }
+  };
+
+  const submit = async () => {
+    validateData();
 
     const data = {
       name: name,
@@ -84,9 +107,11 @@ const Register = () => {
     };
 
     try {
-      const response = await userRegister(data);
-      reactotron.log('response: ', response);
-      navigate.navigate('Login');
+      if (validateData()) {
+        const response = await userRegister(data);
+        reactotron.log('response: ', response);
+        navigate.navigate('Login');
+      }
     } catch (e) {
       setErrorMsg(e.response.data);
       showMessage(e.response.data, 'red');
@@ -95,7 +120,7 @@ const Register = () => {
   };
 
   return (
-    <SafeAreaView style={styles.containerEnd}>
+    <View style={styles.containerEnd}>
       <StatusBar
         translucent
         backgroundColor="transparent"
@@ -132,7 +157,14 @@ const Register = () => {
             security={true}
             input={texts.login.placeHolderPassword}
             onFocus={() => {
-              showMessages(texts.message.password, '#31bfb5');
+              showMessages(
+                texts.message.password,
+                '#31bfb5',
+                {
+                  bottom: screenHeight - 300,
+                },
+                true,
+              );
             }}
           />
           <Input
@@ -140,7 +172,14 @@ const Register = () => {
             security={true}
             input={texts.register.placeHolderConfirmPassword}
             onFocus={() => {
-              showMessages(texts.message.confirmPassword, '#31bfb5');
+              showMessages(
+                texts.message.confirmPassword,
+                '#31bfb5',
+                {
+                  bottom: screenHeight - 300,
+                },
+                true,
+              );
             }}
           />
           <Button
@@ -156,7 +195,7 @@ const Register = () => {
           />
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
