@@ -1,7 +1,11 @@
 import React, {useState, createContext} from 'react';
 import reactotron from 'reactotron-react-native';
 import {setTokenAuthentication} from '../Services/Api';
-import {storeData, storeDataUser} from '../Services/LocalStorage';
+import {
+  storeData,
+  storeDataUser,
+  storeDataAvatar,
+} from '../Services/LocalStorage';
 import t from '../Services/Translate';
 import {setUserVar} from '../Services/Api';
 
@@ -15,6 +19,7 @@ export const AuthContext = React.createContext(auth);
 
 export const UserProvider = ({children}) => {
   const [user, setUser] = useState(auth);
+  const [image, setImage] = useState(null);
 
   const login = ({user, token}) => {
     setUser({

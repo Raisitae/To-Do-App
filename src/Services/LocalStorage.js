@@ -10,6 +10,25 @@ export async function storeData(value) {
   }
 }
 
+export async function storeAvatar(value) {
+  try {
+    await AsyncStorage.setItem('@storage_Avatar', value);
+  } catch (e) {
+    reactotron.log('storeAvatar error', e);
+  }
+}
+
+export async function getAvatar() {
+  try {
+    const value = await AsyncStorage.getItem('@storage_Avatar');
+    if (value !== null) {
+      return value;
+    }
+  } catch (e) {
+    reactotron.log('getAvatar error', e);
+  }
+}
+
 export async function dataAsync() {
   const token = await getData('@storage_Key');
   return token;

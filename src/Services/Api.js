@@ -74,15 +74,11 @@ export async function userRegister(data) {
 export async function userLogout(data) {
   const baseUrl = 'https://ozkavosh-todo.up.railway.app';
   const response = await axios
-    .post(
-      `${baseUrl}/user/logout`,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${data}`,
-        },
+    .post(`${baseUrl}/user/logout`, {
+      headers: {
+        Authorization: `Bearer ${data}`,
       },
-    )
+    })
     .then(response => {
       console.log(response);
       return response;

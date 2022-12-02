@@ -23,13 +23,17 @@ import showMessages from '../Services/ShowMessages';
 import HighlightedText from '../Components/Texts/HighlightedText';
 
 const NewTask = () => {
+  const [isCompleted, setIsCompleted] = useState(completed);
+
   const [newTask, setNewTask] = useState('');
 
   const handleTask = text => {
     setNewTask(text);
   };
 
-  const [loading, setLoading] = useState(false);
+  const handleSwitch = () => {
+    setIsCompleted(!isCompleted);
+  };
 
   const baseUrl = 'https://ozkavosh-todo.up.railway.app';
 
@@ -56,6 +60,7 @@ const NewTask = () => {
           `${baseUrl}/task`,
           {
             description: newTask,
+            completed: isCompleted,
           },
           config,
         )
@@ -90,7 +95,7 @@ const NewTask = () => {
           <Input input={texts.tasks.createName} function={handleTask} />
           <View style={{flexDirection: 'row', marginBottom: 10}}>
             <HighlightedText label={'Completed'} />
-            <Switch />
+            <Switch onValueChange={handleSwitch} value={isCompleted} />
           </View>
         </View>
         <View style={{...styles.inputGroup}}>

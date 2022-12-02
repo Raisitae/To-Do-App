@@ -7,11 +7,9 @@ import {
 } from 'react-native';
 import Button from '../Components/Button/Button';
 import MainTitle from '../Components/Titles/MainTitle';
-import SecondaryTitle from '../Components/Titles/SecondaryTitle';
 import HighlightedText from '../Components/Texts/HighlightedText';
 import MainText from '../Components/Texts/MainText';
 import Input from '../Components/Input/Input';
-import axios from 'axios';
 import reactotron from 'reactotron-react-native';
 import React, {useEffect} from 'react';
 import {showMessage, hideMessage} from 'react-native-flash-message';
@@ -19,6 +17,7 @@ import texts from '../Local/en';
 const styles = require('../Styles/Styles');
 import showMessages from '../Services/ShowMessages';
 import {userRegister} from '../Services/Api';
+import {useNavigation} from '@react-navigation/native';
 
 const Register = () => {
   const [name, setName] = React.useState('');
@@ -29,11 +28,12 @@ const Register = () => {
   const [validName, setValidName] = React.useState(false);
   const [validPassword, setValidPassword] = React.useState(false);
   const [errorMsg, setErrorMsg] = React.useState('');
-
+  const navigate = useNavigation();
   //seteamos los estados de los inputs luego de realizar la comprobacion
   const handleConfirmPassword = text => {
     setConfirmPassword(text);
   };
+
   const checkValidEmail = text => {
     const emailRegex =
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -85,12 +85,12 @@ const Register = () => {
 
     try {
       const response = await userRegister(data);
-      login({...response.data});
       reactotron.log('response: ', response);
+      navigate.navigate('Login');
     } catch (e) {
       setErrorMsg(e.response.data);
       showMessage(e.response.data, 'red');
-      reactotron.log('error: ', e.response.data);
+      reactotron.log('error: ', e);
     }
   };
 

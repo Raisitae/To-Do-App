@@ -22,11 +22,6 @@ const Login = () => {
   const navigation = useNavigation();
   const {login} = useContext(AuthContext);
 
-  useEffect(() => {
-    setEmail('jose@gmail.com');
-    setPassword('1234567a');
-  }, []);
-
   const handleName = text => {
     setEmail(text);
   };
@@ -88,12 +83,9 @@ const Login = () => {
             style={styles.imgTitle}
             source={require('../Assets/login.png')}
           />
+          <Input input={texts.login.placeHolderEmail} function={handleName} />
           <Input
-            input={email ? email : texts.login.placeHolderEmail}
-            function={handleName}
-          />
-          <Input
-            input={password ? password : texts.login.placeHolderPassword}
+            input={texts.login.placeHolderPassword}
             security={true}
             function={handlePassword}
           />

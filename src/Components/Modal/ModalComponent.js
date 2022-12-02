@@ -1,13 +1,5 @@
 import react, {useState, useEffect, useContext} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Modal,
-  Alert,
-  Switch,
-} from 'react-native';
+import {View, Text, TouchableOpacity, Modal, Alert, Switch} from 'react-native';
 import {Button} from '../Button/Button';
 import reactotron from 'reactotron-react-native';
 const styles = require('../../Styles/Styles');

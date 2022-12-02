@@ -15,15 +15,16 @@ import avatarList from '../../Services/Avatar';
 import reactotron from 'reactotron-react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {storeAvatar, getAvatar} from '../../Services/LocalStorage';
 
 const ModalAvatar = ({toggleModal}) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [avatar, setAvatar] = useState('');
+  const [avatars, setAvatars] = useState('');
   const [imageCamera, setImageCamera] = useState(null);
 
   console.log(data.token);
   useEffect(() => {
-    setAvatar(avatarList);
+    setAvatars(avatarList);
   }, []);
 
   const toggleIt = () => {
@@ -31,37 +32,9 @@ const ModalAvatar = ({toggleModal}) => {
     toggleModal();
   };
 
-  const handleAvatar = async (item, id) => {
-    try {
-      const result = await launchImageLibrary({
-        maxWidth: 250,
-        maxHeight: 250,
-      });
-      const formData = new FormData();
-      formData.append('avatar', {
-        uri: result.uri,
-        type: result.type,
-        name: result.fileName,
-      });
-      await postAvatar(formData, data.token);
-    } catch (error) {
-      console.log('error', error);
-    }
-
-    /*
-    try {
-      const result = item.url;
-      const formData = new FormData();
-      formData.append('avatar', {
-        uri: result,
-        name: 'avatar.png',
-        type: 'image/png',
-      });
-      await postAvatar(formData, data.token);
-    } catch (e) {
-      console.log('error', e);
-    }
-    */
+  const handleAvatar = item => {
+    storeAvatar(item);
+    toggleIt();
   };
 
   const handleCamera = async () => {
@@ -90,9 +63,9 @@ const ModalAvatar = ({toggleModal}) => {
       <TouchableOpacity
         style={{padding: 10}}
         key={item.id}
-        onPress={() => handleAvatar(item, data.token)}>
+        onPress={() => handleAvatar(item.url)}>
         <Image
-          source={item.url}
+          source={{uri: item.url}}
           style={{borderRadius: 100, height: 100, width: 100}}
         />
       </TouchableOpacity>
@@ -121,7 +94,7 @@ const ModalAvatar = ({toggleModal}) => {
             Change avatar
           </Text>
           <FlatList
-            data={avatar}
+            data={avatars}
             numColumns={2}
             width="100%"
             renderItem={renderAvatar}

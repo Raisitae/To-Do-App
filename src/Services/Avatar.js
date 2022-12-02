@@ -1,19 +1,19 @@
 const avatarList = [
   {
     name: '1',
-    url: require('../Assets/UserPics/1.png'),
+    url: 'https://i.postimg.cc/L6Wwx1D4/Delivery-boy.png',
   },
   {
     name: '2',
-    url: require('../Assets/UserPics/2.png'),
+    url: 'https://i.postimg.cc/J06vVDWq/Delivery-boy-1.png',
   },
   {
     name: '3',
-    url: require('../Assets/UserPics/3.png'),
+    url: 'https://i.postimg.cc/T2CZWSW-D/Delivery-boy-2.png',
   },
   {
     name: '4',
-    url: require('../Assets/UserPics/4.png'),
+    url: 'https://i.postimg.cc/ZKnXPcrD/Delivery-boy-3.png',
   },
 ];
 

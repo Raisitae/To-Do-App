@@ -1,33 +1,32 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  Pressable,
-  TouchableOpacity,
-} from 'react-native';
+import {View, Image, TouchableOpacity, ActivityIndicator} from 'react-native';
 import MainTitle from '../Titles/MainTitle';
 import reactotron from 'reactotron-react-native';
-import {getAvatar} from '../../Services/Api';
+import {getAvatar} from '../../Services/LocalStorage';
 import {AuthContext} from '../../Services/Context';
 const styles = require('../../Styles/Styles');
 import ModalAvatar from '../Modal/ModalAvatar';
-import baseAvatar from '../../Assets/UserPics/1.png';
+import {useNavigation} from '@react-navigation/native';
 
 const UserProfileHeader = () => {
-  const [avatar, setAvatar] = useState(null);
-  const {user} = useContext(AuthContext);
+  const [thisAvatar, thisSetAvatar] = useState(null);
+  const {user, avatar} = useContext(AuthContext);
   const [name, setName] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
+  const navigation = useNavigation();
+  const [loading, setLoading] = useState(true);
 
   const handleOpenModal = () => {
     data = user;
     setModalVisible(!modalVisible);
+    setTimeout(() => {
+      handleAvatar();
+    }, 300);
+    setLoading(false);
   };
 
   let firstName;
-  const hadlerName = () => {
+  const handlerName = () => {
     let userName;
     if (user.user !== undefined) {
       userName = user.user.name;
@@ -39,24 +38,22 @@ const UserProfileHeader = () => {
     }
   };
 
-  const getAvatarUser = async () => {
-    const response = await getAvatar(user.token)
-      .then(response => {
-        console.log('data', response);
-      })
-      .catch(error => {
-        console.log('error', error);
-      });
-    return response;
+  const handleAvatar = async () => {
+    const avatar = await getAvatar();
+    thisSetAvatar(avatar);
+    console.log(thisAvatar);
   };
 
   useEffect(() => {
-    console.log(avatar);
-    getAvatarUser();
-    hadlerName();
-  }, []);
+    const unsubscribe = navigation.addListener('focus', () => {
+      console.log('user', user);
+      handlerName();
+      handleAvatar();
+      setLoading(false);
+    });
+    return unsubscribe;
+  }, [loading]);
 
-  console.log(avatar);
   return (
     <View
       style={{
@@ -73,7 +70,9 @@ const UserProfileHeader = () => {
         <Image
           style={{borderRadius: 100, height: 100, width: 100}}
           source={
-            avatar !== null ? {avatar} : require('../../Assets/UserPics/1.png')
+            thisAvatar !== null
+              ? {uri: thisAvatar}
+              : {uri: 'https://i.postimg.cc/L6Wwx1D4/Delivery-boy.png'}
           }
         />
       </TouchableOpacity>
