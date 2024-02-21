@@ -22,10 +22,10 @@ During the development of this projects we used tools such as Reactotron and Pos
 
 ## Usage
 
-![App mockup on a phone](https://github.com/Raisitae/To-Do-App/tree/main/readme_assets/mockup_phone.png?raw=true)
-![App mockup](https://github.com/Raisitae/To-Do-App/tree/main/readme_assets/mockup.jpg?raw=true)
+![App mockup on a phone](https://raw.githubusercontent.com/Raisitae/To-Do-App/main/readme_assets/mockup_phone.png?raw=true)
+![App mockup](https://raw.githubusercontent.com/Raisitae/To-Do-App/main/readme_assets/mockup.jpg?raw=true)
 
 ## DEMO
 
 A small demo demonstrating the functionalities of this app
-![Demo gif](https://github.com/Raisitae/To-Do-App/tree/main/readme_assets/demo.gif?raw=true)
+![Demo gif](https://raw.githubusercontent.com/Raisitae/To-Do-App/main/readme_assets/demo.gif?raw=true)
