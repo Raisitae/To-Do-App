@@ -4,12 +4,12 @@ This To Do App is a simple CRUD with a login system that was design and develop 
 
 This app's functionalities are:
 🟣Login
-🟣Logout
-🟣Register
-🟣Create new task
-🟣Edit a task
-🟣Mark a task as completed
-🟣Delete a task
+<br>🟣Logout
+<br>🟣Register
+<br>🟣Create new task
+<br>🟣Edit a task
+<br>🟣Mark a task as completed
+<br>🟣Delete a task
 
 All of the functions above work connected with an API, you can also locally:
 🟣Change your avatar from 4 different options
@@ -22,10 +22,10 @@ During the development of this projects we used tools such as Reactotron and Pos
 
 ## Usage
 
-[[/readme_assets/mockup_phone.png|App mockup on a phone]]
-[[/readme_assets/mockup.jpg|App mockup]]
+![App mockup on a phone](https://github.com/Raisitae/To-Do-App/tree/main/readme_assets/mockup_phone.png?raw=true)
+![App mockup](https://github.com/Raisitae/To-Do-App/tree/main/readme_assets/mockup.jpg?raw=true)
 
 ## DEMO
 
 A small demo demonstrating the functionalities of this app
-[[/readme_assets/demo.gif|Demo Gif]]
+![Demo gif](https://github.com/Raisitae/To-Do-App/tree/main/readme_assets/demo.gif?raw=true)
