@@ -3,7 +3,7 @@
 This To Do App is a simple CRUD with a login system that was design and develop as part of a 4 mounth intensive course about React Learning. This project was the final deliverable we present to qualify for our certifications.
 
 This app's functionalities are:
-🟣Login
+<br>🟣Login
 <br>🟣Logout
 <br>🟣Register
 <br>🟣Create new task
